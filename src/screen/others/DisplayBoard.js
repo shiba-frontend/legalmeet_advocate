@@ -72,7 +72,7 @@ const DisplayBoard = ({navigation}) => {
       }}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={COLORS.WHITE}
       />
       <Header
         isMenuPresent={false}

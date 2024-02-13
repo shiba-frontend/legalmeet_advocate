@@ -49,10 +49,10 @@ const EnterOTP = ({navigation}) => {
     <SafeAreaView style={{flex: 1}}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={COLORS.STATUS_BAR_login}
       />
       <Loader visible={AuthReducer.loading} />
-      <ImageBackground
+      {/* <ImageBackground
         source={IMAGE.app_background}
         resizeMode="cover"
         style={styles.imgbg}>
@@ -251,7 +251,197 @@ const EnterOTP = ({navigation}) => {
             </View>
           </ScrollView>
         </View>
-      </ImageBackground>
+      </ImageBackground> */}
+      <ScrollView style={{flex: 1, backgroundColor: COLORS?.themeColor}}>
+        <View
+          style={{
+            width: Dimensions?.get('window')?.width,
+            height: Dimensions?.get('window')?.height / 3,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Image
+            source={ICON?.logo}
+            style={{height: normalize(70), width: normalize(200)}}
+            resizeMode="contain"
+          />
+        </View>
+      </ScrollView>
+      <View
+        style={{
+          height: Dimensions?.get('window')?.height / 1.6,
+          width: Dimensions?.get('window')?.width,
+          backgroundColor: COLORS?.WHITE,
+          borderTopLeftRadius: normalize(40),
+          position: 'absolute',
+          bottom: normalize(0),
+          alignItems: 'center',
+          // justifyContent: 'center',
+        }}>
+        <View
+          style={{
+            margin: normalize(25),
+            width: '90%',
+          }}>
+          <Text
+            style={{
+              color: COLORS.themeColor,
+              fontSize: normalize(32),
+              fontWeight: '800',
+            }}>
+            Verify OTP
+          </Text>
+          <Text
+            style={{
+              color: 'rgba(91, 91, 91, 1)',
+              fontSize: normalize(14),
+              fontWeight: '600',
+            }}>
+            Enter the OTP sent to 8240874446
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            width: '80%',
+            justifyContent: 'space-between',
+          }}>
+          <TextInput
+            style={[
+              styles.OtpInput,
+              {
+                borderColor: !isEmpty(otp1) ? COLORS.PINK : COLORS.WHITE,
+              },
+            ]}
+            keyboardType="numeric"
+            maxLength={1}
+            ref={textInput1}
+            value={otp1}
+            onChangeText={otp1 => {
+              setotp1(otp1);
+              if (otp1 != '') {
+                textInput2.current.focus();
+              }
+            }}
+          />
+
+          <TextInput
+            style={[
+              styles.OtpInput,
+              {borderColor: !isEmpty(otp1) ? COLORS.PINK : COLORS.WHITE},
+            ]}
+            keyboardType="numeric"
+            maxLength={1}
+            ref={textInput2}
+            value={otp2}
+            onChangeText={otp2 => {
+              setotp2(otp2);
+              if (otp2 != '') {
+                textInput3.current.focus();
+              }
+            }}
+            onKeyPress={({nativeEvent}) => {
+              if (nativeEvent.key == 'Backspace') {
+                textInput1.current.focus();
+              }
+            }}
+          />
+          <TextInput
+            style={[
+              styles.OtpInput,
+              {borderColor: !isEmpty(otp1) ? COLORS.PINK : COLORS.WHITE},
+            ]}
+            keyboardType="numeric"
+            maxLength={1}
+            ref={textInput3}
+            value={otp3}
+            onChangeText={otp3 => {
+              setotp3(otp3);
+              if (otp3 != '') {
+                textInput4.current.focus();
+              }
+            }}
+            onKeyPress={({nativeEvent}) => {
+              if (nativeEvent.key == 'Backspace') {
+                textInput2.current.focus();
+              }
+            }}
+          />
+          <TextInput
+            style={[
+              styles.OtpInput,
+              {borderColor: !isEmpty(otp1) ? COLORS.PINK : COLORS.WHITE},
+            ]}
+            keyboardType="numeric"
+            maxLength={1}
+            ref={textInput4}
+            value={otp4}
+            onChangeText={otp4 => {
+              setotp4(otp4);
+              if (otp4 != '') {
+                textInput4.current.focus();
+              }
+            }}
+            onKeyPress={({nativeEvent}) => {
+              if (nativeEvent.key == 'Backspace') {
+                textInput3.current.focus();
+              }
+            }}
+          />
+        </View>
+        <View style={{marginTop: normalize(20), width: '90%'}}>
+          <TouchableOpacity
+            style={{
+              padding: normalize(16),
+              backgroundColor: COLORS.themeColor,
+              borderRadius: normalize(6),
+              alignItems: 'center',
+            }}
+            onPress={() => {
+              var otp = otp1 + otp2 + otp3 + otp4;
+              if (otp == '') {
+                ToastMessage('OTP required');
+              } else if (otp.length != 4) {
+                ToastMessage('Enter valid OTP');
+              } else {
+                IsInternetConnected()
+                  .then(() => {
+                    dispatch(
+                      loginRequest({
+                        mobile_number: AuthReducer?.userId,
+                        verification_code: otp,
+                      }),
+                    );
+                  })
+                  .catch(() => {
+                    ToastMessage('Network connection issue');
+                  });
+              }
+            }}>
+            <Text
+              style={{
+                color: COLORS.WHITE,
+                letterSpacing: normalize(2),
+                fontSize: 18,
+              }}>
+              VERIFY
+            </Text>
+          </TouchableOpacity>
+          <Text
+            style={{
+              color: '#5B5B5B',
+              fontSize: normalize(12),
+              fontWeight: '500',
+              textAlign: 'center',
+              marginTop: normalize(20),
+            }}
+            onPress={() => {
+              // navigation.navigate('ResendOTP');
+            }}>
+            Didn’t receive OTP?
+          </Text>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
@@ -267,7 +457,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('screen').width,
   },
   OtpInput: {
-    backgroundColor: COLORS.WHITE,
+    backgroundColor: COLORS.ASH,
     alignSelf: 'center',
     padding: normalize(15),
     fontSize: normalize(16),

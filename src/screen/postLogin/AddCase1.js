@@ -84,7 +84,7 @@ const AddCase1 = ({navigation, route}) => {
     <SafeAreaView style={{flex: 1}}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={COLORS.WHITE}
       />
       <Header
         isMenuPresent={false}
@@ -392,7 +392,7 @@ const AddCase1 = ({navigation, route}) => {
                       paddingHorizontal: normalize(10),
                       paddingVertical: normalize(5),
                       borderRadius: normalize(20),
-                      backgroundColor: COLORS.STATUS_BAR,
+                      backgroundColor: COLORS.themeColor,
                       marginRight: normalize(10),
                       paddingRight: normalize(15),
                       // width: '60%',
@@ -560,7 +560,7 @@ const AddCase1 = ({navigation, route}) => {
             <TouchableOpacity
               style={{
                 padding: normalize(10),
-                backgroundColor: COLORS.STATUS_BAR,
+                backgroundColor: COLORS.themeColor,
                 borderRadius: normalize(10),
                 alignItems: 'center',
               }}

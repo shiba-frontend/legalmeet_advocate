@@ -89,7 +89,7 @@ const CaseDocument = ({navigation}) => {
     <SafeAreaView style={{flex: 1}}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={COLORS.WHITE}
       />
       <Header isMenuPresent={false} navigation={navigation} text={'Back'} />
       <Loader visible={PostReducer.loading} />
@@ -178,9 +178,9 @@ const CaseDocument = ({navigation}) => {
               />
               <Text
                 style={{
-                  color: COLORS.PINK,
+                  color: COLORS.themeColor,
                   fontWeight: '600',
-                  fontSize: normalize(12),
+                  fontSize: normalize(10),
                   marginLeft: normalize(10),
                 }}>
                 {isEmpty(profile?.name) ? 'UPLOAD' : 'UPLOADED'}
@@ -192,7 +192,7 @@ const CaseDocument = ({navigation}) => {
             <TouchableOpacity
               style={{
                 padding: normalize(10),
-                backgroundColor: COLORS.STATUS_BAR,
+                backgroundColor: COLORS.themeColor,
                 borderRadius: normalize(10),
                 alignItems: 'center',
               }}

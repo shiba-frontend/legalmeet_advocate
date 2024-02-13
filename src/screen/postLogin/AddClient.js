@@ -123,7 +123,7 @@ const AddClient = ({navigation, route}) => {
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={COLORS.WHITE}
       />
       <Header
         isMenuPresent={false}
@@ -145,7 +145,7 @@ const AddClient = ({navigation, route}) => {
                   paddingVertical: normalize(10),
                   borderBottomWidth:
                     item != option ? normalize(0) : normalize(3),
-                  borderBottomColor: COLORS.STATUS_BAR,
+                  borderBottomColor: COLORS.themeColor,
                 }}
                 onPress={() => {
                   setOption(item);
@@ -351,7 +351,6 @@ const AddClient = ({navigation, route}) => {
                   borderRadius: 10,
                   paddingHorizontal: normalize(7),
                   paddingVertical: normalize(3),
-                  borderColor: '#e7e7e7',
                   borderWidth: 1,
                   paddingHorizontal: normalize(7),
                   paddingVertical: normalize(2),
@@ -384,7 +383,6 @@ const AddClient = ({navigation, route}) => {
                   borderRadius: 10,
                   paddingHorizontal: normalize(7),
                   paddingVertical: normalize(3),
-                  borderColor: '#e7e7e7',
                   borderWidth: 1,
                   paddingHorizontal: normalize(7),
                   paddingVertical: normalize(2),
@@ -423,7 +421,6 @@ const AddClient = ({navigation, route}) => {
                   borderRadius: 10,
                   paddingHorizontal: normalize(7),
                   paddingVertical: normalize(3),
-                  borderColor: '#e7e7e7',
                   borderWidth: 1,
                   paddingHorizontal: normalize(7),
                   paddingVertical: normalize(2),
@@ -448,7 +445,7 @@ const AddClient = ({navigation, route}) => {
               <TouchableOpacity
                 style={{
                   padding: normalize(13),
-                  backgroundColor: COLORS.STATUS_BAR,
+                  backgroundColor: COLORS.themeColor,
                   borderRadius: normalize(10),
                   alignItems: 'center',
                 }}
@@ -946,8 +943,8 @@ const AddClient = ({navigation, route}) => {
                   <Image
                     source={IMAGE?.no_data}
                     style={{
-                      width: Dimensions.get('window').width,
-                      height: Dimensions.get('window').height / 1.5,
+                      width: normalize(150),
+                      height: normalize(150),
                     }}
                     resizeMode="contain"
                   />
@@ -965,6 +962,7 @@ const AddClient = ({navigation, route}) => {
               backgroundColor: 'rgba(17, 201, 0, 0.09)',
               alignItems: 'center',
               borderRadius: normalize(12),
+              marginBottom:normalize(10),
             }}
             onPress={() => {
               navigation.navigate('ClientDocument');
@@ -974,74 +972,95 @@ const AddClient = ({navigation, route}) => {
           <FlatList
             data={PostReducer?.clientDetail?.document}
             showsVerticalScrollIndicator={false}
-            numColumns={3}
+           
             renderItem={({item, index}) => {
               return (
-                <TouchableOpacity
-                  style={{
-                    padding: normalize(10),
-                    borderWidth: normalize(1),
-                    marginTop: normalize(10),
-                    borderRadius: normalize(10),
-                    borderColor: '#e7e7e7',
-                    backgroundColor: '#FFF',
-                    width: Dimensions?.get('screen').width / 2 - 25,
-                    marginRight: normalize(10),
-                  }}
-                  onPress={() => {
-                    Linking.openURL(item?.file);
+
+                <View style={{
+                  backgroundColor:'#002D5233',
+                  padding:normalize(7),
+                  marginVertical:normalize(5),
+                  borderRadius:normalize(10),
+                  borderWidth:1,
+                  borderStyle:'dashed',
+                  borderColor:'#002D5233',
+                  flexDirection:'row',
+                  justifyContent:'space-between'
                   }}>
-                  <Image
-                    source={
-                      item?.type.toLowerCase() == 'pdf'
-                        ? ICON?.pdf
-                        : item?.type.toLowerCase() == 'doc'
-                        ? ICON?.doc
-                        : ICON?.img
-                    }
-                    style={{
-                      width: Dimensions?.get('screen').width / 2 - 75,
-                      height: normalize(100),
-                    }}
-                    resizeMode="contain"
-                  />
-                  <TouchableOpacity
-                    style={{
-                      position: 'absolute',
-                      right: normalize(5),
-                      top: normalize(5),
-                    }}
-                    onPress={() => {
-                      Alert.alert('Are you sure to delete this document', '', [
-                        {
-                          text: 'Yes',
-                          onPress: () => {
-                            IsInternetConnected()
-                              .then(() => {
-                                dispatch(
-                                  clientDeleteDocumentRequest({
-                                    client_document_id: item?.id,
-                                  }),
-                                );
-                              })
-                              .catch(() => {
-                                ToastMessage('Network connection issue');
-                              });
-                          },
-                        },
-                        {
-                          text: 'No',
-                          onPress: () => console.log('Cancel Pressed'),
-                          style: 'cancel',
-                        },
-                      ]);
-                    }}>
-                    <Image
-                      source={ICON?.delete}
-                      style={{height: normalize(15), width: normalize(15)}}
-                    />
-                  </TouchableOpacity>
-                </TouchableOpacity>
+                <View style={{flex:2}}>
+                    <Text style={{color:'#222',fontWeight:'600',fontSize:normalize(13)}}>{item?.document_name}</Text>
+                    <Text style={{color:'#666',fontWeight:'400',fontSize:normalize(10)}}>{item?.type}</Text>
+                </View>
+                <View style={{flexDirection:'row',flex:1,justifyContent:'flex-end'}}>
+                <TouchableOpacity
+                style={
+                  {width:normalize(30),
+                    height:normalize(30),
+                    backgroundColor:'#FE1C321A',
+                    borderRadius:normalize(3),
+                    justifyContent:'center',
+                    alignItems:'center'
+                  }}
+              onPress={() => {
+                Alert.alert('Are you sure to delete this document', '', [
+                  {
+                    text: 'Yes',
+                    onPress: () => {
+                      IsInternetConnected()
+                        .then(() => {
+                          dispatch(
+                            clientDeleteDocumentRequest({
+                              client_document_id: item?.id,
+                            }),
+                          );
+                        })
+                        .catch(() => {
+                          ToastMessage('Network connection issue');
+                        });
+                    },
+                  },
+                  {
+                    text: 'No',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                  },
+                ]);
+              }}>
+              <Image
+                source={IMAGE?.trash}
+                style={{height: normalize(15), width: normalize(15)}}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+                </View>
+                <View>
+                    
+
+          <TouchableOpacity
+           style={
+            {width:normalize(30),
+              height:normalize(30),
+              backgroundColor:'#35A4431A',
+              borderRadius:normalize(3),
+              justifyContent:'center',
+              alignItems:'center',
+              marginLeft:normalize(5),
+            }}
+            onPress={() => {
+              Linking.openURL(item?.file);
+            }}>
+            <Image
+              source={IMAGE.import}
+              style={{height: normalize(15), width: normalize(15)}}
+              resizeMode="contain"
+            />
+           
+          </TouchableOpacity>
+                </View>
+          </View>
+
+
+          
               );
             }}
             ListEmptyComponent={() => {
@@ -1056,8 +1075,8 @@ const AddClient = ({navigation, route}) => {
                   <Image
                     source={IMAGE?.no_data}
                     style={{
-                      width: Dimensions.get('window').width,
-                      height: Dimensions.get('window').height / 1.5,
+                      width: normalize(150),
+                      height: normalize(150),
                     }}
                     resizeMode="contain"
                   />
@@ -1177,8 +1196,8 @@ const AddClient = ({navigation, route}) => {
                   <Image
                     source={IMAGE?.no_data}
                     style={{
-                      width: Dimensions.get('window').width,
-                      height: Dimensions.get('window').height / 1.5,
+                      width: normalize(150),
+                      height: normalize(150),
                     }}
                     resizeMode="contain"
                   />

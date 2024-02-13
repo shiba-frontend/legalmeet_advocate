@@ -77,7 +77,7 @@ const Judgement = ({navigation}) => {
       }}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={COLORS.WHITE}
       />
       <Header
         isMenuPresent={false}
@@ -200,8 +200,8 @@ const Judgement = ({navigation}) => {
                   <Image
                     source={IMAGE?.no_data}
                     style={{
-                      width: Dimensions.get('window').width,
-                      height: Dimensions.get('window').height / 1.5,
+                      width: normalize(150),
+                      height:  normalize(150),
                     }}
                     resizeMode="contain"
                   />

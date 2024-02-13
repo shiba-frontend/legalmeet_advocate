@@ -11,6 +11,7 @@ import {
   FlatList,
   TextInput,
   Alert,
+  Linking,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import SplashImage from '../../assets/splash.png';
@@ -81,7 +82,7 @@ const MemberList = ({navigation}) => {
       }}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={COLORS.WHITE}
       />
       <Header isMenuPresent={true} navigation={navigation} text={'Members'} />
       <Loader visible={PostReducer.loading} />
@@ -100,44 +101,68 @@ const MemberList = ({navigation}) => {
               <TouchableOpacity
                 style={{
                   padding: normalize(10),
-                  borderWidth: normalize(1),
                   marginTop: normalize(10),
                   borderRadius: normalize(10),
-                  borderColor: COLORS.themeColor,
+                  backgroundColor:'#F5F7F8',
+                  flexDirection:'row',
+                  alignItems: 'center',
+                  gap: normalize(7)
                 }}
                 onPress={() => {
                   navigation.navigate('AddMember', {item: item});
                 }}>
+                  <View style={{
+                    width:normalize(35),
+                    height:normalize(35),
+                    backgroundColor:'#002D521A',
+                    borderRadius: normalize(4),
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}>
+                      <Text style={{
+                        textTransform: 'uppercase',
+                        fontSize: normalize(14),
+                        color:COLORS.themeColor,
+                        fontWeight: '600'
+                      }}>{item?.name?.substring(0, 1)} </Text>
+                  </View>
                 <View
                   style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
+                  
                   }}>
-                  <View
-                    style={{
-                      marginTop: normalize(4),
-                      flexDirection: 'row',
-                    }}>
-                    <Image
-                      source={ICON?.profile}
+                  
+                  <Text
                       style={{
-                        height: normalize(15),
-                        width: normalize(15),
-                        tintColor: COLORS.themeColor,
-                      }}
-                      resizeMode="contain"
-                    />
-                    <Text
-                      style={{
-                        marginLeft: normalize(10),
                         textTransform: 'capitalize',
+                        fontSize: normalize(13),
+                        color:COLORS.themeColor,
+                        fontWeight: '600'
                       }}
                       numberOfLines={1}>
                       {item?.name}
                     </Text>
-                  </View>
-                  <TouchableOpacity
+                    <Text  style={{
+                        fontSize: normalize(10),
+                        color:'#5B5B5B',
+                        fontWeight: '400'
+                      }}> {item?.mobile_number}</Text>
+                
+                </View>
+
+                <View
+                  style={{
+                    marginLeft:'auto',
+                    flexDirection: 'row',
+                  }}>
+                    <TouchableOpacity
+                    style={
+                      {width:normalize(30),
+                        height:normalize(30),
+                        backgroundColor:'#FE1C321A',
+                        borderRadius:normalize(3),
+                        justifyContent:'center',
+                        alignItems:'center'
+                      }}
                     onPress={() => {
                       setCaseDetail(item);
                       Alert.alert('Are you sure to delete this member', '', [
@@ -165,7 +190,7 @@ const MemberList = ({navigation}) => {
                       ]);
                     }}>
                     <Image
-                      source={ICON.delete}
+                      source={IMAGE.trash}
                       style={{
                         height: normalize(15),
                         width: normalize(15),
@@ -173,28 +198,26 @@ const MemberList = ({navigation}) => {
                       resizeMode="contain"
                     />
                   </TouchableOpacity>
-                </View>
-
-                <View
-                  style={{
-                    marginTop: normalize(10),
-                    flexDirection: 'row',
-                  }}>
-                  <Image
-                    source={ICON?.call}
-                    style={{
-                      height: normalize(15),
-                      width: normalize(15),
-                      tintColor: COLORS.themeColor,
+                  <TouchableOpacity
+                  style={
+                    {width:normalize(30),
+                      height:normalize(30),
+                      backgroundColor:'#35A4431A',
+                      borderRadius:normalize(3),
+                      justifyContent:'center',
+                      alignItems:'center',
+                      marginLeft:normalize(5),
                     }}
-                    resizeMode="contain"
-                  />
-                  <Text
-                    style={{
-                      marginLeft: normalize(10),
+                    onPress={() => {
+                      Linking.openURL(`tel:${item?.mobile_number}`);
                     }}>
-                    {item?.mobile_number}
-                  </Text>
+                    <Image
+                      source={IMAGE.call_calling_one}
+                      style={{height: normalize(15), width: normalize(15)}}
+                      resizeMode="contain"
+                    />
+                  
+                  </TouchableOpacity>
                 </View>
               </TouchableOpacity>
             );
@@ -211,8 +234,8 @@ const MemberList = ({navigation}) => {
                 <Image
                   source={IMAGE?.no_data}
                   style={{
-                    width: Dimensions.get('window').width,
-                    height: Dimensions.get('window').height / 1.5,
+                    width: normalize(150),
+                    height: normalize(150),
                   }}
                   resizeMode="contain"
                 />

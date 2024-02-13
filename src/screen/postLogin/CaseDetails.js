@@ -97,7 +97,7 @@ const CasesDetails = ({navigation}) => {
         }}>
         <MyStatusBar
           barStyle={'dark-content'}
-          backgroundColor={COLORS.STATUS_BAR}
+          backgroundColor={COLORS.WHITE}
         />
         <Header
           isMenuPresent={false}
@@ -258,7 +258,7 @@ const CasesDetails = ({navigation}) => {
                     paddingVertical: normalize(10),
                     borderBottomWidth:
                       item != option ? normalize(0) : normalize(3),
-                    borderBottomColor: COLORS.STATUS_BAR,
+                    borderBottomColor: COLORS.themeColor,
                   }}
                   onPress={() => {
                     setOption(item);
@@ -307,7 +307,11 @@ const CasesDetails = ({navigation}) => {
                       marginTop: normalize(20),
                       borderRadius: normalize(10),
                       borderColor: COLORS.themeColor,
+                      flexDirection:'row',
+                      justifyContent:'space-between',
+                      alignItems:'center',
                     }}>
+                      <View>
                     <View
                       style={{marginTop: normalize(4), flexDirection: 'row'}}>
                       <Image
@@ -342,11 +346,14 @@ const CasesDetails = ({navigation}) => {
                         {moment(item?.hearing_date).format('DD-MM-YYYY')}
                       </Text>
                     </View>
+                    </View>
                     <TouchableOpacity
-                      style={{
-                        position: 'absolute',
-                        right: normalize(5),
-                        top: normalize(5),
+                      style={  {width:normalize(30),
+                        height:normalize(30),
+                        backgroundColor:'#FE1C321A',
+                        borderRadius:normalize(3),
+                        justifyContent:'center',
+                        alignItems:'center'
                       }}
                       onPress={() => {
                         Alert.alert(
@@ -379,7 +386,7 @@ const CasesDetails = ({navigation}) => {
                         );
                       }}>
                       <Image
-                        source={ICON?.delete}
+                        source={IMAGE?.trash}
                         style={{height: normalize(15), width: normalize(15)}}
                       />
                     </TouchableOpacity>
@@ -398,6 +405,7 @@ const CasesDetails = ({navigation}) => {
                 backgroundColor: 'rgba(17, 201, 0, 0.09)',
                 alignItems: 'center',
                 borderRadius: normalize(12),
+                marginBottom:normalize(10),
               }}
               onPress={() => {
                 navigation.navigate('CaseDocument');
@@ -406,83 +414,96 @@ const CasesDetails = ({navigation}) => {
             </TouchableOpacity>
             <FlatList
               data={PostReducer?.caseDetail?.document}
-              numColumns={2}
+          
               showsVerticalScrollIndicator={false}
               renderItem={({item, index}) => {
                 return (
-                  <TouchableOpacity
-                    style={{
-                      padding: normalize(10),
-                      borderWidth: normalize(1),
-                      marginTop: normalize(10),
-                      borderRadius: normalize(10),
-                      borderColor: '#DDD',
-                      width: Dimensions?.get('screen').width / 2 - 25,
-                      marginRight: normalize(10),
-                    }}
-                    onPress={() => {
-                      Linking.openURL(item?.file);
+                    
+                  <View style={{
+                    backgroundColor:'#002D5233',
+                    padding:normalize(7),
+                    marginVertical:normalize(5),
+                    borderRadius:normalize(10),
+                    borderWidth:1,
+                    borderStyle:'dashed',
+                    borderColor:'#002D5233',
+                    flexDirection:'row',
+                    justifyContent:'space-between'
                     }}>
-                    <Image
-                      source={
-                        item?.type.toLowerCase() == 'pdf'
-                          ? ICON?.pdf
-                          : item?.type.toLowerCase() == 'doc'
-                          ? ICON?.doc
-                          : ICON?.img
-                      }
-                      resizeMode="contain"
-                      style={{
-                        width: Dimensions?.get('screen').width / 2 - 75,
-                        height: normalize(100),
-                      }}
-                    />
-                    {/* <Text
-                      style={{textTransform: 'uppercase', fontWeight: '800'}}>
-                      {item?.document_name.replace(' ', '_') + '.' + item?.type}
-                    </Text> */}
-                    <TouchableOpacity
-                      style={{
-                        position: 'absolute',
-                        right: normalize(5),
-                        top: normalize(5),
-                      }}
-                      onPress={() => {
-                        Alert.alert(
-                          'Are you sure to delete this document',
-                          '',
-                          [
-                            {
-                              text: 'Yes',
-                              onPress: () => {
-                                IsInternetConnected()
-                                  .then(() => {
-                                    dispatch(
-                                      caseDocumentDeleteRequest({
-                                        type: 'document',
-                                        document_id: item?.id,
-                                      }),
-                                    );
-                                  })
-                                  .catch(() => {
-                                    ToastMessage('Network connection issue');
-                                  });
-                              },
-                            },
-                            {
-                              text: 'No',
-                              onPress: () => console.log('Cancel Pressed'),
-                              style: 'cancel',
-                            },
-                          ],
-                        );
-                      }}>
-                      <Image
-                        source={ICON?.delete}
-                        style={{height: normalize(15), width: normalize(15)}}
-                      />
-                    </TouchableOpacity>
-                  </TouchableOpacity>
+                  <View style={{flex:2}}>
+                      <Text style={{color:'#222',fontWeight:'600',fontSize:normalize(13)}}>{item?.document_name}</Text>
+                      <Text style={{color:'#666',fontWeight:'400',fontSize:normalize(10)}}>{item?.type}</Text>
+                  </View>
+                  <View style={{flexDirection:'row',flex:1,justifyContent:'flex-end'}}>
+                  <TouchableOpacity
+                  style={
+                    {width:normalize(30),
+                      height:normalize(30),
+                      backgroundColor:'#FE1C321A',
+                      borderRadius:normalize(3),
+                      justifyContent:'center',
+                      alignItems:'center'
+                    }}
+                onPress={() => {
+                  Alert.alert('Are you sure to delete this document', '', [
+                    {
+                      text: 'Yes',
+                      onPress: () => {
+                        IsInternetConnected()
+                          .then(() => {
+                            dispatch(
+                              caseDocumentDeleteRequest({
+                                type: 'document',
+                                document_id: item?.id,
+                              }),
+                            );
+                          })
+                          .catch(() => {
+                            ToastMessage('Network connection issue');
+                          });
+                      },
+                    },
+                    {
+                      text: 'No',
+                      onPress: () => console.log('Cancel Pressed'),
+                      style: 'cancel',
+                    },
+                  ]);
+                }}>
+                <Image
+                  source={IMAGE?.trash}
+                  style={{height: normalize(15), width: normalize(15)}}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+                  </View>
+                  <View>
+                      
+  
+            <TouchableOpacity
+             style={
+              {width:normalize(30),
+                height:normalize(30),
+                backgroundColor:'#35A4431A',
+                borderRadius:normalize(3),
+                justifyContent:'center',
+                alignItems:'center',
+                marginLeft:normalize(5),
+              }}
+              onPress={() => {
+                Linking.openURL(item?.file);
+              }}>
+              <Image
+                source={IMAGE.import}
+                style={{height: normalize(15), width: normalize(15)}}
+                resizeMode="contain"
+              />
+             
+            </TouchableOpacity>
+                  </View>
+            </View>
+
+
                 );
               }}
             />
@@ -634,7 +655,7 @@ const CasesDetails = ({navigation}) => {
           style={{
             width: Dimensions.get('screen').width / 2,
             padding: normalize(14),
-            backgroundColor: COLORS.STATUS_BAR,
+            backgroundColor:'#004782',
             alignItems: 'center',
           }}
           onPress={() => {
@@ -672,7 +693,7 @@ const CasesDetails = ({navigation}) => {
           style={{
             width: Dimensions.get('screen').width / 2,
             padding: normalize(14),
-            backgroundColor: '#006ab7',
+            backgroundColor: COLORS.themeColor,
             alignItems: 'center',
           }}
           onPress={() => {

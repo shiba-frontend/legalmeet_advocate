@@ -52,32 +52,32 @@ const Dashboard = ({navigation}) => {
 
   const options = [
     {
-      image: ICON.user,
+      image: IMAGE.clients_icon,
       text: 'Clients',
       page: 'Client',
     },
     {
-      image: ICON.case_history,
+      image: IMAGE.case_icon,
       text: 'Cases',
       page: 'Cases',
     },
     {
-      image: ICON.judgement,
+      image: IMAGE.judgement_icon,
       text: 'Judgements',
       page: 'Judgement',
     },
     {
-      image: ICON.chat,
+      image: IMAGE.enquery_icon,
       text: 'Enquires',
       page: 'Enquiry',
     },
     {
-      image: ICON.case_history,
+      image: IMAGE.causelist_icon,
       text: 'Cause List',
       page: 'Client',
     },
     {
-      image: ICON.calender,
+      image: IMAGE.appoinment_icon,
       text: 'Calenders',
       page: 'Calender',
     },
@@ -86,7 +86,7 @@ const Dashboard = ({navigation}) => {
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={COLORS.WHITE}
       />
       <Header
         isMenuPresent={true}
@@ -108,113 +108,134 @@ const Dashboard = ({navigation}) => {
               {Number(PostReducer?.profileData?.complete_profile_percentage) /
                 100 <
               1 ? (
+
                 <TouchableOpacity
-                  style={[
-                    styles.shadowProp,
-                    {
-                      padding: normalize(10),
-                      borderWidth: normalize(1),
-                      borderColor: COLORS.themeColor,
-                      borderRadius: normalize(10),
-                      marginVertical: normalize(10),
-                      backgroundColor: COLORS.themeColor,
-                    },
-                  ]}
-                  onPress={() => {
-                    navigation.navigate('Profile');
-                  }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      paddingBottom: normalize(5),
-                    }}>
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      <Image
-                        source={
-                          PostReducer?.profileData?.profile_image == ''
-                            ? ICON.profile_image
-                            : {uri: PostReducer?.profileData?.profile_image}
-                        }
-                        style={{
-                          height: normalize(40),
-                          width: normalize(40),
-                          borderRadius: normalize(25),
-                        }}
-                        resizeMode="contain"
-                      />
-                      <View>
-                        <Text
-                          style={{
-                            marginLeft: normalize(10),
-                            color: '#fff',
-                            fontSize: normalize(14),
-                            fontWeight: '800',
-                          }}>
-                          {PostReducer?.profileData?.name}
-                        </Text>
-                        <Text
-                          style={{
-                            marginLeft: normalize(10),
-                            color: '#fff',
-                            fontSize: normalize(12),
-                            fontWeight: '600',
-                            fontStyle: 'italic',
-                          }}>
-                          {PostReducer?.profileData?.mobile_number}
-                        </Text>
-                      </View>
-                    </View>
-                    {PostReducer?.profileData?.charges ? (
-                      <View>
-                        <Text
-                          style={{
-                            color: '#fff',
-                            fontWeight: '600',
-                            textAlign: 'right',
-                          }}>
-                          ₹{PostReducer?.profileData?.charges}
-                        </Text>
-                        <Text style={{color: '#fff'}}>1 hour consulting</Text>
-                      </View>
-                    ) : null}
-                  </View>
-                  {Number(
-                    PostReducer?.profileData?.complete_profile_percentage,
-                  ) /
-                    100 <
-                  1 ? (
-                    <View
-                      style={{
-                        paddingTop: normalize(7),
-                        borderTopWidth: normalize(1),
-                        borderTopColor: '#19affb',
-                        marginTop: normalize(7),
-                      }}>
-                      <Text
-                        style={{
-                          marginBottom: normalize(10),
-                          color: '#fff',
-                          fontWeight: '600',
-                        }}>
-                        Complete Your Profile!
-                      </Text>
-                      <Progress.Bar
-                        progress={
-                          Number(
-                            PostReducer?.profileData
-                              ?.complete_profile_percentage,
-                          ) / 100
-                        }
-                        width={Dimensions.get('screen').width - 50}
-                        color={'#6ce4e3'}
-                        borderColor={'#19affb'}
-                        unfilledColor={'#19affb'}
-                      />
-                    </View>
-                  ) : null}
-                </TouchableOpacity>
+                onPress={() => {
+                  navigation.navigate('Profile');
+                }}>
+                      <ImageBackground source={IMAGE.dashboard_profile_bg} 
+                      resizeMode="cover"
+                      imageStyle={{ borderRadius: normalize(7)}}
+                       style={{
+                       marginVertical:normalize(15),
+                       padding:normalize(10)
+                       }}>
+                          <View style={{flexDirection:'row',gap:normalize(10)}}>
+                              <View >
+                              <Image
+                              source={
+                                PostReducer?.profileData?.profile_image == ''
+                                  ? ICON.profile_image
+                                  : {uri: PostReducer?.profileData?.profile_image}
+                              }
+                              style={{
+                                height: normalize(60),
+                                width: normalize(60),
+                                borderRadius: normalize(50),
+                              }}
+                              resizeMode="contain"
+                            />
+                              </View>
+                              <View>
+                                  <View style={{flexDirection:'row', alignItems:'center', gap:normalize(7)}}>
+                                  <Text
+                                  style={{
+                                    color: '#fff',
+                                    fontSize: normalize(14),
+                                    fontWeight: '800',
+                                  }}>
+                                  {PostReducer?.profileData?.name}
+                                </Text>
+                                <Image
+                              source={IMAGE.verify_icon}
+                                style={{
+                                  height: normalize(20),
+                                  width:normalize(20),
+                                
+                                }}
+                                resizeMode="contain"
+                              />
+                                  </View>
+                                  <View style={{flexDirection:'row', alignItems:'center', gap:normalize(7), marginVertical:normalize(3)}}>
+                                  <Image
+                                source={IMAGE.call_calling}
+                                  style={{
+                                    height: normalize(20),
+                                    width:normalize(20),
+                                  
+                                  }}
+                                  resizeMode="contain"
+                                />
+                                  <Text
+                                  style={{
+                                    color: '#fff',
+                                    fontSize: normalize(12),
+                                    fontWeight: '600',
+
+                                  }}>
+                                  {PostReducer?.profileData?.mobile_number}
+                                </Text>
+                                  </View>
+                                  <View>
+                                  {PostReducer?.profileData?.charges ? (
+                                      <View style={{flexDirection:'row', alignItems:'center', gap:normalize(7)}}>
+                                        <Text
+                                          style={{
+                                            color: '#fff',
+                                            fontSize: normalize(12),
+                                            fontWeight: '600',
+                                          }}>
+                                          Fees
+                                        </Text>
+                                        <Text style={{  color: '#fff',
+                                    fontSize: normalize(12),
+                                    fontWeight: '600',}}>₹ {PostReducer?.profileData?.charges}</Text>
+                                      </View>
+                                    ) : null}
+                                  </View>
+                                  
+                               </View>
+                          </View>
+                          {Number(
+                                    PostReducer?.profileData?.complete_profile_percentage,
+                                  ) /
+                                    100 <
+                                  1 ? (
+                                    <View
+                                      style={{
+                                        marginTop:normalize(10),
+                                        paddingTop:normalize(5),
+                                        borderTopWidth: normalize(1),
+                                        borderTopColor: '#003561',
+                                     
+                                      }}>
+                                      <Text
+                                        style={{
+                                          marginBottom: normalize(10),
+                                          color: '#fff',
+                                          fontWeight: '600',
+                                        }}>
+                                        Complete Your Profile!
+                                      </Text>
+                                      <Progress.Bar
+                                        progress={
+                                          Number(
+                                            PostReducer?.profileData
+                                              ?.complete_profile_percentage,
+                                          ) / 100
+                                        }
+                                        width={Dimensions.get('screen').width - 50}
+                                        color={'#015fac'}
+                                        borderColor={'#003561'}
+                                        unfilledColor={'#003561'}
+                                      />
+                                    </View>
+                                  ) : null}
+                      </ImageBackground>
+
+
+                  </TouchableOpacity>
+
               ) : null}
               <View>
                 <FlatList
@@ -226,16 +247,14 @@ const Dashboard = ({navigation}) => {
                     return (
                       <TouchableOpacity
                         style={{
-                          paddingHorizontal: normalize(10),
+                          paddingHorizontal: normalize(7),
                           paddingVertical: normalize(15),
-                          borderRadius: normalize(10),
-                          borderWidth: normalize(1),
-                          borderColor: COLORS.themeColor,
+                         borderRadius: normalize(10),
                           alignItems: 'center',
                           justifyContent: 'center',
                           width: Dimensions.get('screen').width / 3.5,
                           marginRight: normalize(10),
-                          backgroundColor: '#FFF',
+                          backgroundColor: '#e6eaee',
                           marginBottom: normalize(10),
                         }}
                         onPress={() => {
@@ -244,8 +263,8 @@ const Dashboard = ({navigation}) => {
                         <Image
                           source={item?.item?.image}
                           style={{
-                            height: normalize(20),
-                            width: normalize(20),
+                            height: normalize(30),
+                            width: normalize(30),
                             tintColor: COLORS.themeColor,
                           }}
                           resizeMode="contain"
@@ -263,7 +282,32 @@ const Dashboard = ({navigation}) => {
                   }}
                 />
               </View>
-
+              <ImageBackground source={IMAGE.displayboard_bg} 
+                      resizeMode="cover"
+                      imageStyle={{ borderRadius: normalize(7)}}
+                       style={{
+                       marginVertical:normalize(15),
+                       padding:normalize(15)
+                       }}>
+                      <TouchableOpacity
+                  onPress={() => navigation.navigate('displayboard')}>
+                 
+                    <View style={{flexDirection:'row',alignItems:'center', gap:normalize(10)}}>
+                    <Image
+                    source={IMAGE.judgement_icon}
+                    style={{
+                      width: normalize(30),
+                      height: normalize(30),
+                    }}
+                    resizeMode="contain"
+                    tintColor="#fff"
+                  />
+                  <Text style={{color:'#fff',fontSize:normalize(16),fontWeight:'600'}}>Live Judgement Board</Text>
+                  <View style={{width:normalize(10),height:normalize(10),backgroundColor:'#35A443',borderRadius:normalize(20)}}></View>
+                    </View>
+                    </TouchableOpacity>
+</ImageBackground>
+             
               <View
                 style={{
                   flexDirection: 'row',
@@ -443,19 +487,7 @@ const Dashboard = ({navigation}) => {
                   );
                 }}
               />
-              <View style={{marginTop: normalize(13)}}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('displayboard')}>
-                  <Image
-                    source={ICON.live_board}
-                    style={{
-                      width: Dimensions.get('screen').width - 20,
-                      height: normalize(97),
-                    }}
-                    resizeMode="contain"
-                  />
-                </TouchableOpacity>
-              </View>
+             
               <View
                 style={{
                   flexDirection: 'row',

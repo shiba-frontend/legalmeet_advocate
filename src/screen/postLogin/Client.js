@@ -76,12 +76,12 @@ const Client = ({navigation}) => {
       }}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={COLORS.WHITE}
       />
       <Header
         isMenuPresent={false}
         navigation={navigation}
-        text={'Client List'}
+        text={'My Clients'}
       />
       <Loader visible={PostReducer.loading} />
       <ScrollView>
@@ -132,40 +132,48 @@ const Client = ({navigation}) => {
               return (
                 <TouchableOpacity
                   style={{
-                    backgroundColor: '#FFF',
+                    backgroundColor: '#f5f7f8',
                     marginBottom: normalize(10),
                     borderRadius: normalize(10),
-                    borderWidth: normalize(1),
-                    borderColor: COLORS.themeColor,
+                    overflow: 'hidden'
                   }}
                   onPress={() => {
                     console.log('Hello');
                     dispatch(updatePageName({pagename: 'EditPage'}));
                     navigation.navigate('AddClient', {item: item});
                   }}>
-                  <View
-                    style={{
-                      padding: normalize(10),
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}>
-                    <View style={{flexDirection: 'row'}}>
-                      <Image
-                        source={ICON?.profile_image}
-                        style={{
-                          height: normalize(35),
-                          width: normalize(35),
-                          borderRadius: normalize(28),
-                          borderWidth: normalize(1),
-                          borderColor: COLORS?.STATUS_BAR,
-                        }}
-                        resizeMode="contain"
-                      />
+                 
+                    <View style={{flexDirection: 'row',gap:normalize(10),padding:normalize(10)}}>
+                      <View>
+                          <Image
+                            source={ICON?.profile_image}
+                            style={{
+                              height: normalize(50),
+                              width: normalize(70),
+                              backgroundColor:'#f2f2f2'
+                            }}
+                            resizeMode="cover"
+                          />
+                          <Text style={{
+                            color: '#35A443',
+                            backgroundColor:'#35A4431A',
+                            textAlign:'center',
+                            fontSize:normalize(9),
+                            padding:normalize(2),
+                            borderRadius:normalize(15),
+                            marginTop:normalize(5),
+                            }}>
+                                {item?.client_type == 1
+                                  ? 'Individual'
+                                  : 'Corporate'}
+                              </Text>
+                      </View>
+                      
                       <View>
                         <Text
                           style={{
-                            color: '#000',
-                            marginLeft: normalize(10),
+                            color: COLORS.themeColor,
+                         
                             fontSize: normalize(14),
                             fontWeight: '800',
                           }}>
@@ -173,34 +181,44 @@ const Client = ({navigation}) => {
                         </Text>
                         <Text
                           style={{
-                            color: '#000',
-                            marginLeft: normalize(10),
+                            color: '#666',
+                          
                             fontSize: normalize(11),
-                            fontWeight: '500',
+                            fontWeight: '400',
                           }}>
                           {item?.email}
                         </Text>
-                        <TouchableOpacity
-                          style={{
-                            paddingHorizontal: normalize(5),
-                            paddingVertical: normalize(3),
-                            backgroundColor: COLORS?.STATUS_BAR,
-                            width: normalize(70),
-                            borderRadius: normalize(20),
-                            alignItems: 'center',
-                            marginLeft: normalize(10),
-                            marginTop: normalize(3),
-                          }}>
-                          <Text style={{color: '#FFF'}}>
-                            {item?.client_type == 1
-                              ? 'Individual'
-                              : 'Corporate'}
-                          </Text>
-                        </TouchableOpacity>
+                     
+                              <View style={{flexDirection:'row',alignItems:'center', gap:normalize(7),marginTop:normalize(5)}}>
+                              <Image
+                              source={IMAGE?.card_receive}
+                              style={{
+                                height: normalize(25),
+                                width: normalize(25),
+                              }}
+                              resizeMode="contain"
+                            />
+                            <View>
+                              <Text style={{color:'#211F20',fontSize:normalize(12),fontWeight:'500'}}>14000/-</Text>
+                              <Text style={{color:'#211F20',fontSize:normalize(10),fontWeight:'300'}}>Receive Amount  </Text>
+                            </View>
+                              </View>
+
+                     
                       </View>
+                    
                     </View>
-                    <TouchableOpacity
-                      style={{}}
+                  <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                  <TouchableOpacity
+                      style={{
+                        backgroundColor:'#FE1C321A',
+                        flex:1,
+                        justifyContent:'center',
+                        alignItems: 'center',
+                        flexDirection:'row',
+                        gap:normalize(3),
+                        paddingVertical:normalize(9)
+                      }}
                       onPress={() => {
                         Alert.alert('Are you sure to delete this client', '', [
                           {
@@ -225,17 +243,21 @@ const Client = ({navigation}) => {
                         ]);
                       }}>
                       <Image
-                        source={ICON?.delete}
+                        source={IMAGE?.trash}
                         style={{height: normalize(15), width: normalize(15)}}
                         resizeMode="contain"
                       />
+                      <Text style={{color:'#FE1C32', fontSize:normalize(10)}}>Delete</Text>
                     </TouchableOpacity>
-                  </View>
-                  <TouchableOpacity
-                    style={{
-                      position: 'absolute',
-                      top: normalize(30),
-                      right: normalize(10),
+                    <TouchableOpacity
+                     style={{
+                      backgroundColor:'#35A4431A',
+                      flex:1,
+                      justifyContent:'center',
+                      alignItems: 'center',
+                      flexDirection:'row',
+                      gap:normalize(3),
+                      paddingVertical:normalize(9)
                     }}
                     onPress={() => {
                       // Check for perfect 10 digit length
@@ -249,15 +271,21 @@ const Client = ({navigation}) => {
                       // call(args).catch(console.error);
                     }}>
                     <Image
-                      source={ICON?.call}
+                      source={IMAGE?.call_calling_one}
                       style={{
-                        height: normalize(25),
-                        width: normalize(25),
-                        tintColor: COLORS.themeColor,
+                        height: normalize(15),
+                        width: normalize(15),
+
                       }}
                       resizeMode="contain"
                     />
-                  </TouchableOpacity>
+                     <Text style={{color:'#35A443', fontSize:normalize(10)}}>Call Now</Text>
+                  </TouchableOpacity>  
+                  </View>
+                  
+         
+                
+               
                   {/* <View
                     style={{
                       padding: normalize(10),
@@ -293,17 +321,7 @@ const Client = ({navigation}) => {
                       Disposed : 1
                     </Text>
                   </View> */}
-                  <View
-                    style={{
-                      padding: normalize(10),
-                      borderTopWidth: normalize(1),
-                      borderTopColor: COLORS.themeColor,
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}>
-                    <Text>Invoiced : ₹ 14000 /-</Text>
-                    <Text>Received : ₹ 14000 /-</Text>
-                  </View>
+               
                 </TouchableOpacity>
               );
             }}
@@ -319,11 +337,12 @@ const Client = ({navigation}) => {
                   <Image
                     source={IMAGE?.no_data}
                     style={{
-                      width: Dimensions.get('window').width,
-                      height: Dimensions.get('window').height / 1.5,
+                      width: normalize(200),
+                      height: normalize(200),
                     }}
                     resizeMode="contain"
                   />
+      
                 </View>
               );
             }}

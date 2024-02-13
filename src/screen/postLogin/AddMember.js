@@ -93,7 +93,7 @@ const AddMember = ({navigation, route}) => {
     <SafeAreaView style={{flex: 1}}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={COLORS.WHITE}
       />
       <Header
         isMenuPresent={false}
@@ -233,7 +233,7 @@ const AddMember = ({navigation, route}) => {
             <TouchableOpacity
               style={{
                 padding: normalize(10),
-                backgroundColor: COLORS.STATUS_BAR,
+                backgroundColor: COLORS.themeColor,
                 borderRadius: normalize(10),
                 alignItems: 'center',
               }}
@@ -329,7 +329,7 @@ const AddMember = ({navigation, route}) => {
             <TouchableOpacity
               style={{
                 padding: normalize(13),
-                backgroundColor: COLORS.STATUS_BAR,
+                backgroundColor: COLORS.themeColor,
                 borderRadius: normalize(10),
                 alignItems: 'center',
               }}

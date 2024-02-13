@@ -97,7 +97,7 @@ const Cases = ({navigation}) => {
       }}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={COLORS.WHITE}
       />
       <Header isMenuPresent={false} navigation={navigation} text={'Cases'} />
       <Loader visible={PostReducer.loading && search == ''} />
@@ -469,8 +469,8 @@ const Cases = ({navigation}) => {
                 <Image
                   source={IMAGE?.no_data}
                   style={{
-                    width: Dimensions.get('window').width,
-                    height: Dimensions.get('window').height / 1.5,
+                    width: normalize(150),
+                    height:normalize(150),
                   }}
                   resizeMode="contain"
                 />
@@ -486,7 +486,7 @@ const Cases = ({navigation}) => {
           right: normalize(30),
           height: normalize(40),
           width: normalize(40),
-          backgroundColor: COLORS.STATUS_BAR,
+          backgroundColor: COLORS.themeColor,
           alignItems: 'center',
           justifyContent: 'center',
           borderRadius: normalize(20),
@@ -500,7 +500,7 @@ const Cases = ({navigation}) => {
           style={{
             height: normalize(20),
             width: normalize(20),
-            tintColor: '#FFF',
+            tintColor:'#fff',
           }}
           resizeMode="contain"
         />

@@ -9,7 +9,7 @@ import {
   Text,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import {COLORS, ICON} from '../Theme';
+import {COLORS, ICON, IMAGE} from '../Theme';
 import normalize from './normalize';
 import {Dialog} from 'react-native-paper';
 import Modal from 'react-native-modal';
@@ -51,14 +51,14 @@ export default function Header(props) {
             style={{
               height: props?.isMenuPresent ? normalize(20) : normalize(20),
               width: props?.isMenuPresent ? normalize(20) : normalize(20),
-              tintColor: '#fff',
+              tintColor: '#222',
             }}
             resizeMode="contain"
           />
         </TouchableOpacity>
         <Text
           style={{
-            color: '#fff',
+            color: '#222',
             marginLeft: normalize(10),
             fontWeight: '800',
             fontSize: normalize(14),
@@ -78,12 +78,12 @@ export default function Header(props) {
           }}>
           {props?.isMenuPresent ? (
             <Image
-              source={ICON.profile}
+              source={IMAGE.header_profile}
               style={{
                 height: props?.isMenuPresent ? normalize(18) : normalize(18),
                 width: props?.isMenuPresent ? normalize(18) : normalize(18),
                 marginTop: normalize(1),
-                tintColor: '#fff',
+             
               }}
               resizeMode="contain"
             />
@@ -95,11 +95,11 @@ export default function Header(props) {
           }}>
           {props?.isMenuPresent ? (
             <Image
-              source={ICON.notification}
+            source={IMAGE.header_noti}
               style={{
                 height: props?.isMenuPresent ? normalize(20) : normalize(20),
                 width: props?.isMenuPresent ? normalize(20) : normalize(20),
-                tintColor: '#fff',
+              
               }}
               resizeMode="contain"
             />
@@ -128,7 +128,7 @@ export default function Header(props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.themeColor,
+    backgroundColor: COLORS.WHITE,
     alignItems: 'center',
     height: normalize(40),
     width: Dimensions.get('screen').width,

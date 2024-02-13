@@ -13,18 +13,41 @@ export const IMAGE = {
   live_auction_pic: require('../assets/live_auction_pic.png'),
   live_auction_bg: require('../assets/live_auction_bg.png'),
   upload_image: require('../assets/upload_image.png'),
-  no_data: require('../assets/image/no_data.png'),
+
   banner: require('../assets/banner_bg.png'),
+
+
+  no_data: require('../assets/new/no_data.png'),
+  header_profile: require('../assets/new/user-square.png'),
+  header_noti: require('../assets/new/notification.png'),
+  dashboard_profile_bg: require('../assets/new/dashboard_profile_bg.png'),
+  verify_icon: require('../assets/new/verify.png'),
+  call_calling: require('../assets/new/call-calling.png'),
+  clients_icon: require('../assets/new/clients_icon.png'),
+  case_icon: require('../assets/new/case_icon.png'),
+  judgement_icon: require('../assets/new/judgement_icon.png'),
+  enquery_icon: require('../assets/new/enquery_icon.png'),
+  causelist_icon: require('../assets/new/causelist_icon.png'),
+  appoinment_icon: require('../assets/new/appoinment_icon.png'),
+  displayboard_bg: require('../assets/new/displayboard_bg.png'),
+  receipt: require('../assets/new/receipt-2.png'),
+  card_receive: require('../assets/new/card-receive.png'),
+  trash: require('../assets/new/trash.png'),
+  call_calling_one: require('../assets/new/call-calling_one.png'),
+  import: require('../assets/new/import.png'),
+  
 };
 export const COLORS = {
   STATUS_BAR: '#0b93f6',
+  STATUS_BAR_login: 'rgba(0, 45, 82, 1)',
   WHITE: '#FFF',
   PINK: '#EC53B0',
   ASH: '#CCCCCC',
   WhiteBg:'#fff',
-  themeColor:'#0b93f6'
+  themeColor: 'rgba(0, 45, 82, 1)',
 };
 export const ICON = {
+  logo: require('../assets/icon/logo.png'),
   mobile: require('../assets/icon/mobile.png'),
   password: require('../assets/icon/password.png'),
   eye_on: require('../assets/icon/eye_on.png'),

@@ -44,7 +44,7 @@ const BasicInformation = ({navigation}) => {
     <SafeAreaView style={{flex: 1}}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={COLORS.WHITE}
       />
       <Loader visible={PostReducer.loading} />
       <ScrollView>
@@ -58,7 +58,7 @@ const BasicInformation = ({navigation}) => {
             }}>
             <Text
               style={{
-                color: COLORS.STATUS_BAR,
+                color: COLORS.themeColor,
                 fontSize: normalize(20),
                 fontWeight: '800',
               }}>
@@ -158,7 +158,7 @@ const BasicInformation = ({navigation}) => {
             <TouchableOpacity
               style={{
                 padding: normalize(10),
-                backgroundColor: COLORS.STATUS_BAR,
+                backgroundColor: COLORS.themeColor,
                 borderRadius: normalize(10),
                 alignItems: 'center',
               }}

@@ -39,11 +39,120 @@ const Login = ({navigation}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <MyStatusBar
-        barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        // barStyle={'dark-content'}
+        backgroundColor={COLORS.STATUS_BAR_login}
       />
       <Loader visible={AuthReducer.loading} />
-      <ImageBackground
+      <ScrollView style={{flex: 1, backgroundColor: COLORS?.themeColor}}>
+        <View
+          style={{
+            width: Dimensions?.get('window')?.width,
+            height: Dimensions?.get('window')?.height / 3,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Image
+            source={ICON?.logo}
+            style={{height: normalize(70), width: normalize(200)}}
+            resizeMode="contain"
+          />
+        </View>
+      </ScrollView>
+      <View
+        style={{
+          height: Dimensions?.get('window')?.height / 1.6,
+          width: Dimensions?.get('window')?.width,
+          backgroundColor: COLORS?.WHITE,
+          borderTopLeftRadius: normalize(40),
+          position: 'absolute',
+          bottom: normalize(0),
+        }}>
+        <View style={{margin: normalize(25)}}>
+          <Text
+            style={{
+              color: COLORS.themeColor,
+              fontSize: normalize(32),
+              fontWeight: '800',
+            }}>
+            Welcome
+          </Text>
+          <Text
+            style={{
+              color: 'rgba(91, 91, 91, 1)',
+              fontSize: normalize(14),
+              fontWeight: '600',
+            }}>
+            Login or Create Your Account
+          </Text>
+        </View>
+        <View style={{alignItems: 'center'}}>
+          <View style={{marginTop: normalize(20), width: '90%'}}>
+            <InputText
+              inputStyle={{
+                backgroundColor: '#FFF',
+                width: '100%',
+                borderRadius: 10,
+                paddingLeft: 10,
+              }}
+              placeHolderText="Enter Mobile Number"
+              beforeIcon={ICON?.india}
+              keyboardType={'phone-pad'}
+              maxLength={10}
+              value={phoneNumber}
+              onChangingText={item => {
+                setPhoneNumber(item);
+              }}
+            />
+          </View>
+          <View
+            style={{
+              marginTop: normalize(20),
+              width: '90%',
+            }}>
+            <TouchableOpacity
+              style={{
+                padding: normalize(16),
+                backgroundColor: COLORS.themeColor,
+                borderRadius: normalize(6),
+                alignItems: 'center',
+              }}
+              onPress={() => {
+                // var emailreg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+                var phoneno = /^\d{10}$/;
+                if (phoneNumber == '') {
+                  ToastMessage('Phone number required');
+                } else if (!phoneNumber.match(phoneno)) {
+                  ToastMessage('Enter valid phone number');
+                } else {
+                  //
+                  IsInternetConnected()
+                    .then(() => {
+                      dispatch(
+                        verifyUserIdRequest({
+                          mobile_number: phoneNumber,
+                          user_type: '2',
+                        }),
+                      );
+                      // navigation.navigate('EnterOTP');
+                    })
+                    .catch(() => {
+                      ToastMessage('Network connection issue');
+                    });
+                }
+              }}>
+              <Text
+                style={{
+                  color: COLORS.WHITE,
+                  letterSpacing: normalize(2),
+                  fontSize: 18,
+                }}>
+                CONTINUE
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+      {/* <ImageBackground
         source={IMAGE.app_background}
         resizeMode="cover"
         style={styles.imgbg}>
@@ -145,7 +254,7 @@ const Login = ({navigation}) => {
             </View>
           </ScrollView>
         </View>
-      </ImageBackground>
+      </ImageBackground> */}
     </SafeAreaView>
   );
 };

@@ -71,7 +71,7 @@ const ClientAddBasicDetail = ({navigation}) => {
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={COLORS.WHITE}
       />
       <Header
         isMenuPresent={false}
@@ -144,7 +144,7 @@ const ClientAddBasicDetail = ({navigation}) => {
                   alignItems: 'center',
                   paddingVertical: normalize(10),
                   borderBottomWidth: index != 0 ? normalize(0) : normalize(3),
-                  borderBottomColor: COLORS.STATUS_BAR,
+                  borderBottomColor: COLORS.themeColor,
                 }}
                 onPress={() => {}}>
                 <Text
@@ -369,7 +369,7 @@ const ClientAddBasicDetail = ({navigation}) => {
             <TouchableOpacity
               style={{
                 padding: normalize(13),
-                backgroundColor: COLORS.STATUS_BAR,
+                backgroundColor: COLORS.themeColor,
                 borderRadius: normalize(10),
                 alignItems: 'center',
               }}
