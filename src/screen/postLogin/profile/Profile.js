@@ -77,7 +77,7 @@ const Profile = ({navigation}) => {
       }}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={COLORS.WHITE}
       />
       <Header
         isMenuPresent={false}
@@ -88,65 +88,42 @@ const Profile = ({navigation}) => {
       <ScrollView>
         <View
           style={{
-            width: Dimensions.get('screen').width - 20,
+            width: Dimensions.get('screen').width - 25,
             alignSelf: 'center',
           }}>
-          <View
-            style={{
-              padding: normalize(10),
-              borderWidth: normalize(1),
-              borderColor: COLORS.themeColor,
-              borderRadius: normalize(10),
-              marginVertical: normalize(10),
-              backgroundColor: COLORS.themeColor,
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingBottom: normalize(10),
-              }}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Image
+          <View style={{
+            justifyContent: 'center',
+            alignItems:'center',
+            marginBottom: normalize(5),
+            marginTop:normalize(10),
+          }}>
+          <Image
                   source={
                     PostReducer?.profileData?.profile_image == ''
-                      ? ICON.profile_image
+                      ? IMAGE.user_profile
                       : {uri: PostReducer?.profileData?.profile_image}
                   }
                   style={{
-                    height: normalize(40),
-                    width: normalize(40),
-                    borderRadius: normalize(25),
+                    height: normalize(70),
+                    width: normalize(70),
+                    borderRadius: normalize(40),
                   }}
                   resizeMode="contain"
                 />
-                <View>
                   <Text
                     style={{
                       marginLeft: normalize(10),
-                      color: '#fff',
+                      color: '#000',
                       fontSize: normalize(14),
-                      fontWeight: '800',
+                      fontWeight: '600',
                     }}>
                     {PostReducer?.profileData?.name}
                   </Text>
+                  <Text>{PostReducer?.profileData?.spacialised}</Text>
                   <Text
-                    style={{
-                      marginLeft: normalize(10),
-                      color: '#fff',
-                      fontSize: normalize(12),
-                      fontWeight: '600',
-                      fontStyle: 'italic',
-                    }}>
-                    {PostReducer?.profileData?.mobile_number}
-                  </Text>
-                </View>
-              </View>
-              <Text
                 style={{
                   marginLeft: normalize(10),
-                  color: '#fff',
+                  color: PostReducer?.profileData?.is_verified == 1 ? 'green' : 'red',
                   fontSize: normalize(14),
                   fontWeight: '800',
                 }}>
@@ -154,22 +131,20 @@ const Profile = ({navigation}) => {
                   ? 'Verified'
                   : 'Not Verified'}
               </Text>
-            </View>
-            {Number(PostReducer?.profileData?.complete_profile_percentage) /
+              <View>
+              {Number(PostReducer?.profileData?.complete_profile_percentage) /
               100 <
             1 ? (
               <View
                 style={{
-                  paddingTop: normalize(7),
-                  borderTopWidth: normalize(1),
-                  borderTopColor: '#19affb',
                   marginTop: normalize(7),
                 }}>
                 <Text
                   style={{
                     marginBottom: normalize(10),
-                    color: '#fff',
+                    color: '#222',
                     fontWeight: '600',
+                    textAlign: 'center'
                   }}>
                   Complete Your Profile!
                 </Text>
@@ -180,62 +155,42 @@ const Profile = ({navigation}) => {
                     ) / 100
                   }
                   width={Dimensions.get('screen').width - 70}
-                  color={'#6ce4e3'}
-                  borderColor={'#19affb'}
-                  unfilledColor={'#19affb'}
+                  color={COLORS.themeColor}
+                  borderColor={'#ccc'}
+                  unfilledColor={'#ccc'}
                 />
               </View>
             ) : null}
+              </View>
           </View>
+          
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
-              marginBottom: normalize(10),
+              marginBottom: normalize(5),
             }}>
             <View
               style={{
                 width: Dimensions.get('screen').width / 3.6,
                 height: normalize(70),
-                backgroundColor: '#FFF',
-                borderRadius: normalize(10),
-                borderWidth: normalize(1),
-                borderColor: COLORS.themeColor,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  width: '80%',
-                }}>
-                <Image
-                  source={ICON.client}
-                  style={{
-                    height: normalize(20),
-                    width: normalize(20),
-                    tintColor: COLORS.themeColor,
-                  }}
-                  resizeMode="contain"
-                />
                 <Text
                   style={{
-                    marginLeft: normalize(5),
                     color: '#000',
                     fontSize: normalize(10),
                   }}>
                   Clients
                 </Text>
-              </View>
+          
               <Text
                 style={{
-                  marginTop: normalize(3),
                   color: COLORS.themeColor,
                   fontSize: normalize(15),
                   fontWeight: '800',
                   textAlign: 'left',
-                  width: '75%',
                 }}>
                 {PostReducer?.profileData?.total_clients}
               </Text>
@@ -244,46 +199,24 @@ const Profile = ({navigation}) => {
               style={{
                 width: Dimensions.get('screen').width / 3.6,
                 height: normalize(70),
-                backgroundColor: '#FFF',
-                borderRadius: normalize(10),
-                borderWidth: normalize(1),
-                borderColor: COLORS.themeColor,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  // justifyContent: 'center',
-                  alignItems: 'center',
-                  width: '80%',
-                }}>
-                <Image
-                  source={ICON.case}
-                  style={{
-                    height: normalize(20),
-                    width: normalize(20),
-                    tintColor: COLORS.themeColor,
-                  }}
-                  resizeMode="contain"
-                />
+             
                 <Text
                   style={{
-                    marginLeft: normalize(5),
                     color: '#000',
                     fontSize: normalize(10),
                   }}>
                   Cases
                 </Text>
-              </View>
+           
               <Text
                 style={{
-                  marginTop: normalize(3),
                   color: COLORS.themeColor,
                   fontSize: normalize(15),
                   fontWeight: '800',
                   textAlign: 'left',
-                  width: '80%',
                 }}>
                 {PostReducer?.profileData?.total_cases}
               </Text>
@@ -292,50 +225,124 @@ const Profile = ({navigation}) => {
               style={{
                 width: Dimensions.get('screen').width / 3.6,
                 height: normalize(70),
-                backgroundColor: '#FFF',
-                borderRadius: normalize(10),
-                borderWidth: normalize(1),
-                borderColor: COLORS.themeColor,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Image
-                  source={ICON.case}
-                  style={{
-                    height: normalize(20),
-                    width: normalize(20),
-                    tintColor: COLORS.themeColor,
-                  }}
-                  resizeMode="contain"
-                />
+             
                 <Text
                   style={{
-                    marginLeft: normalize(5),
                     color: '#000',
                     fontSize: normalize(10),
                   }}>
                   Wining Cases
                 </Text>
-              </View>
+            
               <Text
                 style={{
-                  marginTop: normalize(3),
                   color: COLORS.themeColor,
                   fontSize: normalize(15),
                   fontWeight: '800',
                   textAlign: 'left',
-                  width: '80%',
                 }}>
                 {PostReducer?.profileData?.wining_cases}
               </Text>
             </View>
           </View>
+
+
+
+
+          <View style={{
+            flexDirection:'row',
+            gap:normalize(10),
+            alignItems: 'center',
+            marginBottom:normalize(10),
+          }}>
+          <Image
+            source={IMAGE.telephone}
+            style={{
+              height: normalize(12),
+              width: normalize(12),
+              tintColor: COLORS.themeColor,
+            }}
+            resizeMode="contain"
+           />
+          <Text style={{
+                      color: '#000',
+                      fontSize: normalize(11),
+                    }}>
+                    {PostReducer?.profileData?.mobile_number}
+                  </Text>
+          </View>
+
+          <View style={{
+            flexDirection:'row',
+            gap:normalize(10),
+            alignItems: 'center',
+            marginBottom:normalize(10),
+          }}>
+          <Image
+            source={IMAGE.mail}
+            style={{
+              height: normalize(12),
+              width: normalize(12),
+              tintColor: COLORS.themeColor,
+            }}
+            resizeMode="contain"
+           />
+          <Text style={{
+                      color: '#000',
+                      fontSize: normalize(11),
+                    }}>
+                    {PostReducer?.profileData?.email}
+                  </Text>
+          </View>
+
+          <View style={{
+            flexDirection:'row',
+            gap:normalize(10),
+            alignItems: 'center',
+            marginBottom:normalize(10),
+          }}>
+          <Image
+            source={IMAGE.briefcase}
+            style={{
+              height: normalize(12),
+              width: normalize(12),
+              tintColor: COLORS.themeColor,
+            }}
+            resizeMode="contain"
+           />
+          <Text style={{
+                      color: '#000',
+                      fontSize: normalize(11),
+                    }}>
+                    {PostReducer?.profileData?.spacialised}
+                  </Text>
+          </View>
+          <View style={{
+            flexDirection:'row',
+            gap:normalize(10),
+            alignItems: 'center',
+            marginBottom:normalize(10),
+          }}>
+          <Image
+            source={IMAGE.home}
+            style={{
+              height: normalize(12),
+              width: normalize(12),
+              tintColor: COLORS.themeColor,
+            }}
+            resizeMode="contain"
+           />
+          <Text style={{
+                      color: '#000',
+                      fontSize: normalize(11),
+                    }}>
+                    {PostReducer?.profileData?.state}
+                  </Text>
+          </View>
+        
           <FlatList
             data={options}
             style={{}}
@@ -441,7 +448,7 @@ const Profile = ({navigation}) => {
                         <Text
                           style={{
                             fontSize: normalize(13),
-                            color: COLORS.STATUS_BAR,
+                            color: COLORS.themeColor,
                             fontWeight: '500',
                           }}>
                           {item?.item?.value}
@@ -487,7 +494,7 @@ const Profile = ({navigation}) => {
                           <Text
                             style={{
                               fontSize: normalize(13),
-                              color: COLORS.STATUS_BAR,
+                              color: COLORS.themeColor,
                               fontWeight: '500',
                             }}>
                             {PostReducer?.profileData?.state_bar_council}
@@ -522,7 +529,7 @@ const Profile = ({navigation}) => {
                           <Text
                             style={{
                               fontSize: normalize(13),
-                              color: COLORS.STATUS_BAR,
+                              color: COLORS.themeColor,
                               fontWeight: '500',
                             }}>
                             {PostReducer?.profileData?.bar_association_name}
@@ -557,7 +564,7 @@ const Profile = ({navigation}) => {
                           <Text
                             style={{
                               fontSize: normalize(13),
-                              color: COLORS.STATUS_BAR,
+                              color: COLORS.themeColor,
                               fontWeight: '500',
                             }}>
                             {PostReducer?.profileData?.practice_area}
@@ -592,7 +599,7 @@ const Profile = ({navigation}) => {
                           <Text
                             style={{
                               fontSize: normalize(13),
-                              color: COLORS.STATUS_BAR,
+                              color: COLORS.themeColor,
                               fontWeight: '500',
                             }}>
                             {PostReducer?.profileData?.spacialised}

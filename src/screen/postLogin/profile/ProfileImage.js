@@ -124,7 +124,7 @@ const ProfileImage = ({navigation}) => {
     <SafeAreaView style={{flex: 1}}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={COLORS.WHITE}
       />
       <Header isMenuPresent={false} navigation={navigation} text={'Back'} />
       <Loader visible={PostReducer.loading} />
@@ -245,13 +245,13 @@ const ProfileImage = ({navigation}) => {
                   flexDirection: 'row',
                 }}>
                 <Image
-                  source={ICON?.upload}
+                  source={IMAGE?.id_card}
                   style={{height: normalize(15), width: normalize(15)}}
                   resizeMode="contain"
                 />
                 <Text
                   style={{
-                    color: COLORS.PINK,
+                    color: COLORS.themeColor,
                     fontWeight: '600',
                     fontSize: normalize(12),
                     marginLeft: normalize(10),
@@ -325,7 +325,7 @@ const ProfileImage = ({navigation}) => {
             <TouchableOpacity
               style={{
                 padding: normalize(10),
-                backgroundColor: COLORS.STATUS_BAR,
+                backgroundColor: COLORS.themeColor,
                 borderRadius: normalize(10),
                 alignItems: 'center',
               }}

@@ -35,6 +35,13 @@ export const IMAGE = {
   trash: require('../assets/new/trash.png'),
   call_calling_one: require('../assets/new/call-calling_one.png'),
   import: require('../assets/new/import.png'),
+  wallet: require('../assets/new/wallet.png'),
+  telephone: require('../assets/new/telephone.png'),
+  mail: require('../assets/new/mail.png'),
+  briefcase: require('../assets/new/briefcase.png'),
+  home: require('../assets/new/home.png'),
+  id_card: require('../assets/new/id-card.png'),
+  user_profile: require('../assets/new/user-profile.png'),
   
 };
 export const COLORS = {

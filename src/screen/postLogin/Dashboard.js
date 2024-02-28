@@ -83,7 +83,7 @@ const Dashboard = ({navigation}) => {
     },
   ];
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fefefe'}}>
       <MyStatusBar
         barStyle={'dark-content'}
         backgroundColor={COLORS.WHITE}
@@ -100,7 +100,7 @@ const Dashboard = ({navigation}) => {
         style={{
           width: Dimensions.get('screen').width - 25,
           alignSelf: 'center',
-          backgroundColor: '#fff',
+          backgroundColor: '#fefefe',
         }}
         ListHeaderComponent={() => {
           return (
@@ -113,13 +113,25 @@ const Dashboard = ({navigation}) => {
                 onPress={() => {
                   navigation.navigate('Profile');
                 }}>
-                      <ImageBackground source={IMAGE.dashboard_profile_bg} 
+                      {/* <ImageBackground source={IMAGE.dashboard_profile_bg} 
                       resizeMode="cover"
                       imageStyle={{ borderRadius: normalize(7)}}
                        style={{
                        marginVertical:normalize(15),
                        padding:normalize(10)
-                       }}>
+                       }}> */}
+                       <View 
+                        style={{
+                          backgroundColor:'#fff',
+                          marginVertical:normalize(15),
+                          padding:normalize(10),
+                          borderColor:'#e9e9e9',
+                          borderWidth:normalize(1),
+                          borderRadius:normalize(5),
+                        }}
+                       >
+
+                     
                           <View style={{flexDirection:'row',gap:normalize(10)}}>
                               <View >
                               <Image
@@ -140,7 +152,7 @@ const Dashboard = ({navigation}) => {
                                   <View style={{flexDirection:'row', alignItems:'center', gap:normalize(7)}}>
                                   <Text
                                   style={{
-                                    color: '#fff',
+                                    color: '#222',
                                     fontSize: normalize(14),
                                     fontWeight: '800',
                                   }}>
@@ -160,15 +172,15 @@ const Dashboard = ({navigation}) => {
                                   <Image
                                 source={IMAGE.call_calling}
                                   style={{
-                                    height: normalize(20),
-                                    width:normalize(20),
-                                  
+                                    height: normalize(15),
+                                    width:normalize(15),
                                   }}
+                                  tintColor={COLORS.themeColor}
                                   resizeMode="contain"
                                 />
                                   <Text
                                   style={{
-                                    color: '#fff',
+                                    color: '#222',
                                     fontSize: normalize(12),
                                     fontWeight: '600',
 
@@ -181,13 +193,13 @@ const Dashboard = ({navigation}) => {
                                       <View style={{flexDirection:'row', alignItems:'center', gap:normalize(7)}}>
                                         <Text
                                           style={{
-                                            color: '#fff',
+                                            color: '#222',
                                             fontSize: normalize(12),
                                             fontWeight: '600',
                                           }}>
                                           Fees
                                         </Text>
-                                        <Text style={{  color: '#fff',
+                                        <Text style={{  color: '#222',
                                     fontSize: normalize(12),
                                     fontWeight: '600',}}>₹ {PostReducer?.profileData?.charges}</Text>
                                       </View>
@@ -206,13 +218,13 @@ const Dashboard = ({navigation}) => {
                                         marginTop:normalize(10),
                                         paddingTop:normalize(5),
                                         borderTopWidth: normalize(1),
-                                        borderTopColor: '#003561',
+                                        borderTopColor: '#ccc',
                                      
                                       }}>
                                       <Text
                                         style={{
                                           marginBottom: normalize(10),
-                                          color: '#fff',
+                                          color: '#222',
                                           fontWeight: '600',
                                         }}>
                                         Complete Your Profile!
@@ -231,13 +243,97 @@ const Dashboard = ({navigation}) => {
                                       />
                                     </View>
                                   ) : null}
-                      </ImageBackground>
+                                    </View>
+                      {/* </ImageBackground> */}
 
 
                   </TouchableOpacity>
 
-              ) : null}
-              <View>
+              ) : 
+              
+              
+                <TouchableOpacity
+                  style={{
+                    marginVertical:normalize(10),
+                    backgroundColor:'#fff',
+                    marginVertical:normalize(15),
+                    padding:normalize(10),
+                    borderColor:'#e9e9e9',
+                    borderWidth:normalize(1),
+                    borderRadius:normalize(5),
+                  }}
+                >
+                <View style={{
+                  flexDirection:'row',
+                  alignItems:'center',
+                  gap:normalize(7),
+                }}>
+                
+                <Image
+                    source={IMAGE.wallet}
+                      style={{
+                        height: normalize(25),
+                        width:normalize(25),
+                      
+                      }}
+                      resizeMode="contain"
+                    />
+                    <View>
+                    <Text style={{color:'#000',fontSize:normalize(10),letterSpacing:normalize(1)}}>Wallet Balance</Text>
+                    <Text style={{color:'#000',fontSize:normalize(12),fontWeight:'600'}}>₹ 0.00</Text>
+                    </View>
+                     
+                 </View>
+                 <View style={{marginTop:normalize(5),flexDirection:'row',justifyContent:'space-between'}}>
+                    <View>
+                        <View style={{flexDirection:'row', alignItems:'center', gap:normalize(3)}}>
+                            <View style={{
+                              width: normalize(5),
+                              height: normalize(5),
+                              backgroundColor:'green',
+                              borderRadius: normalize(10)
+                            }}></View>
+                            <Text style={{color:'#000',fontSize:normalize(9)}}>Total Income</Text>
+                        </View>
+                        <Text style={{color:'#000',fontSize:normalize(9),fontWeight:'500'}}>₹ 0.00</Text>
+                    </View>
+                    <View>
+                        <View style={{flexDirection:'row', alignItems:'center', gap:normalize(3)}}>
+                            <View style={{
+                              width: normalize(5),
+                              height: normalize(5),
+                              backgroundColor:'red',
+                              borderRadius: normalize(10)
+                            }}></View>
+                            <Text style={{color:'#000',fontSize:normalize(9)}}>Total Withdrawl</Text>
+                        </View>
+                        <Text style={{color:'#000',fontSize:normalize(9),fontWeight:'500'}}>₹ 0.00</Text>
+                    </View>
+                    <View>
+                        <View style={{flexDirection:'row', alignItems:'center', gap:normalize(3)}}>
+                            <View style={{
+                              width: normalize(5),
+                              height: normalize(5),
+                              backgroundColor:'#000',
+                              borderRadius: normalize(10)
+                            }}></View>
+                            <Text style={{color:'#000',fontSize:normalize(9)}}>Pending</Text>
+                        </View>
+                        <Text style={{color:'#000',fontSize:normalize(9),fontWeight:'500'}}>₹ 0.00</Text>
+                    </View>
+                 </View>
+                </TouchableOpacity>
+                
+               
+              
+              }
+              <View style={{
+                backgroundColor:'#fff',
+                padding:normalize(10),
+                borderColor:'#e9e9e9',
+                borderWidth:normalize(1),
+                borderRadius:normalize(5),
+              }}>
                 <FlatList
                   data={options}
                   numColumns={3}
@@ -247,15 +343,11 @@ const Dashboard = ({navigation}) => {
                     return (
                       <TouchableOpacity
                         style={{
-                          paddingHorizontal: normalize(7),
-                          paddingVertical: normalize(15),
-                         borderRadius: normalize(10),
                           alignItems: 'center',
                           justifyContent: 'center',
                           width: Dimensions.get('screen').width / 3.5,
                           marginRight: normalize(10),
-                          backgroundColor: '#e6eaee',
-                          marginBottom: normalize(10),
+                          marginBottom: normalize(15),
                         }}
                         onPress={() => {
                           navigation.navigate(item?.item?.page);
@@ -308,6 +400,8 @@ const Dashboard = ({navigation}) => {
                     </TouchableOpacity>
 </ImageBackground>
              
+{PostReducer?.todayhearing?.length > 0 &&
+          <>  
               <View
                 style={{
                   flexDirection: 'row',
@@ -487,7 +581,11 @@ const Dashboard = ({navigation}) => {
                   );
                 }}
               />
-             
+              </>  
+              }
+
+              {PostReducer?.allHearing?.length > 0 &&
+              
               <View
                 style={{
                   flexDirection: 'row',
@@ -513,6 +611,7 @@ const Dashboard = ({navigation}) => {
                   View All
                 </Text>
               </View>
+        }
             </View>
           );
         }}
@@ -566,6 +665,7 @@ const Dashboard = ({navigation}) => {
                 </View>
               </View>
               {!isEmpty(item?.case_details?.court_details?.name) ? (
+                
                 <View
                   style={{
                     flexDirection: 'row',
@@ -624,27 +724,160 @@ const Dashboard = ({navigation}) => {
             </View>
           );
         }}
-        ListEmptyComponent={() => {
+        // ListEmptyComponent={() => {
+        //   return (
+        //     <View
+        //       style={{
+        //         width: Dimensions.get('window').width,
+        //         height: Dimensions.get('window').height / 10,
+        //         alignItems: 'center',
+        //         justifyContent: 'center',
+        //       }}>
+        //       <Image
+        //         source={IMAGE?.no_data}
+        //         style={{
+        //           width: Dimensions.get('window').width,
+        //           height: Dimensions.get('window').height / 10,
+        //         }}
+        //         resizeMode="contain"
+        //       />
+        //     </View>
+        //   );
+        // }}
+        ListFooterComponent={({item, index}) => {
           return (
-            <View
-              style={{
-                width: Dimensions.get('window').width,
-                height: Dimensions.get('window').height / 10,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <Image
-                source={IMAGE?.no_data}
-                style={{
-                  width: Dimensions.get('window').width,
-                  height: Dimensions.get('window').height / 10,
-                }}
-                resizeMode="contain"
-              />
+            <View style={{
+              backgroundColor:'#fff',
+              borderColor:'#e9e9e9',
+              borderWidth:normalize(1),
+              borderRadius:normalize(5),
+              marginBottom:normalize(10)
+            }}>
+        <Text style={{
+          backgroundColor:'#fefefe',
+          paddingHorizontal:normalize(10),
+          paddingVertical:normalize(3),
+          color:'#000',
+          fontSize:normalize(12),
+          fontWeight:'500'
+
+        }}>10 New Enquires</Text>
+        <View style={{
+           padding:normalize(10),
+           flexDirection:'row',
+           gap:normalize(5),
+          borderBottomColor:'#ccc',
+          borderBottomWidth:1
+        }}>
+            <View style={{
+              width:'65%'
+            }}>
+                <Text style={{
+                  color:'#000',
+                  fontSize:normalize(9),
+                  marginBottom:normalize(2)
+                }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
+                molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum</Text>
+                <Text style={{
+                  color:'#666',
+                  fontSize:normalize(8)
+                }}>Kolkata</Text>
             </View>
+            <View style={{
+              width:'35%'
+            }}>
+              <Text style={{
+                  color:'#666',
+                  fontSize:normalize(8)
+                }}>Feb 19, 2024 10:23 AM</Text>
+              <TouchableOpacity
+                style={{
+                  backgroundColor:COLORS.themeColor,
+                  padding:normalize(4),
+                  borderRadius:normalize(4),
+                  marginTop:normalize(6)
+                }}
+              >
+                <Text style={{
+                  color:'#fff',
+                  fontSize:normalize(9),
+                  textAlign: 'center'
+                }}>Open</Text>
+              </TouchableOpacity>
+            </View>
+        </View>
+        <View style={{
+           padding:normalize(10),
+           flexDirection:'row',
+           gap:normalize(5),
+           borderBottomColor:'#ccc',
+           borderBottomWidth:1
+        }}>
+            <View style={{
+              width:'65%'
+            }}>
+                <Text style={{
+                  color:'#000',
+                  fontSize:normalize(9),
+                  marginBottom:normalize(2)
+                }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
+                molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum</Text>
+                <Text style={{
+                  color:'#666',
+                  fontSize:normalize(8)
+                }}>Kolkata</Text>
+            </View>
+            <View style={{
+              width:'35%'
+            }}>
+              <Text style={{
+                  color:'#666',
+                  fontSize:normalize(8)
+                }}>Feb 19, 2024 10:23 AM</Text>
+              <TouchableOpacity
+                style={{
+                  backgroundColor:COLORS.themeColor,
+                  padding:normalize(4),
+                  borderRadius:normalize(4),
+                  marginTop:normalize(6)
+                }}
+              >
+                <Text style={{
+                  color:'#fff',
+                  fontSize:normalize(9),
+                  textAlign: 'center'
+                }}>Open</Text>
+              </TouchableOpacity>
+            </View>
+        </View>
+        <View style={{
+          justifyContent: 'center',
+          alignItems:'center',
+          marginVertical:normalize(10),
+        }}>
+          <TouchableOpacity style={{
+            borderColor:COLORS.themeColor,
+            borderWidth:1,
+            paddingHorizontal:normalize(7),
+            paddingVertical:normalize(3),
+            borderRadius:normalize(3)
+          }}>
+                <Text style={{
+                  fontSize: normalize(10),
+                  color:COLORS.themeColor
+                }}>View All</Text>
+          </TouchableOpacity>
+        </View>
+    </View>
           );
         }}
+       
+      
       />
+
+      
+
+
     </SafeAreaView>
   );
 };

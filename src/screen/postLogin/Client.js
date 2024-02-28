@@ -146,11 +146,11 @@ const Client = ({navigation}) => {
                     <View style={{flexDirection: 'row',gap:normalize(10),padding:normalize(10)}}>
                       <View>
                           <Image
-                            source={ICON?.profile_image}
+                            source={IMAGE?.user_profile}
                             style={{
-                              height: normalize(50),
-                              width: normalize(70),
-                              backgroundColor:'#f2f2f2'
+                              height: normalize(60),
+                              width: normalize(60), 
+                              borderRadius: normalize(120)
                             }}
                             resizeMode="cover"
                           />

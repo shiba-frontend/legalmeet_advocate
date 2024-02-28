@@ -47,7 +47,7 @@ const PersonalInformation = ({navigation}) => {
     <SafeAreaView style={{flex: 1}}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={COLORS.WHITE}
       />
       <Header isMenuPresent={false} navigation={navigation} text={'Back'} />
       <Loader visible={PostReducer.loading} />
@@ -225,7 +225,7 @@ const PersonalInformation = ({navigation}) => {
             <TouchableOpacity
               style={{
                 padding: normalize(13),
-                backgroundColor: COLORS.STATUS_BAR,
+                backgroundColor: COLORS.themeColor,
                 borderRadius: normalize(10),
                 alignItems: 'center',
               }}
