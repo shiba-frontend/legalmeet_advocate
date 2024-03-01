@@ -764,91 +764,123 @@ const Dashboard = ({navigation}) => {
         }}>10 New Enquires</Text>
         <View style={{
            padding:normalize(10),
-           flexDirection:'row',
-           gap:normalize(5),
           borderBottomColor:'#ccc',
           borderBottomWidth:1
         }}>
             <View style={{
-              width:'65%'
-            }}>
+               flexDirection:'row',
+               justifyContent:'space-between',
+               alignItems: 'flex-start',
+               marginBottom:normalize(5),
+          }}>
+                <View style={{
+                  width:'68%'
+                }}>
+                  <Text style={{
+                    backgroundColor:'#eff8ff',
+                    borderWidth:1,
+                    borderColor:'#bfe3ff',
+                   paddingVertical:normalize(3),
+                   paddingHorizontal:normalize(5),
+                   color:COLORS.themeColor,
+                   marginBottom:normalize(3),
+                   fontSize:normalize(11)
+                  }}>Category</Text>
+                </View>
+                <View style={{
+                  width:'32%',
+                  justifyContent:'flex-end',
+                  alignItems:'flex-end'
+                }}>
+               <Text style={{
+                  color:'#666',
+                  fontSize:normalize(8),
+                  marginBottom:normalize(2),
+                }}>Feb 19, 2024 10:23 AM</Text>
+                <Text style={{
+                  color:'#fff',
+                  fontSize:normalize(9),
+                  textAlign: 'center',
+                  backgroundColor:  COLORS.themeColor,
+                  paddingVertical:normalize(4),
+                  paddingHorizontal:normalize(10),
+                  borderRadius:normalize(4),
+                }}>Open</Text>
+           
+                </View>
+          </View>
+         
                 <Text style={{
                   color:'#000',
                   fontSize:normalize(9),
                   marginBottom:normalize(2)
                 }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
                 molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum</Text>
+              
                 <Text style={{
                   color:'#666',
                   fontSize:normalize(8)
                 }}>Kolkata</Text>
-            </View>
-            <View style={{
-              width:'35%'
-            }}>
-              <Text style={{
-                  color:'#666',
-                  fontSize:normalize(8)
-                }}>Feb 19, 2024 10:23 AM</Text>
-              <TouchableOpacity
-                style={{
-                  backgroundColor:COLORS.themeColor,
-                  padding:normalize(4),
-                  borderRadius:normalize(4),
-                  marginTop:normalize(6)
-                }}
-              >
-                <Text style={{
-                  color:'#fff',
-                  fontSize:normalize(9),
-                  textAlign: 'center'
-                }}>Open</Text>
-              </TouchableOpacity>
-            </View>
         </View>
         <View style={{
            padding:normalize(10),
-           flexDirection:'row',
-           gap:normalize(5),
-           borderBottomColor:'#ccc',
-           borderBottomWidth:1
+          borderBottomColor:'#ccc',
+          borderBottomWidth:1
         }}>
             <View style={{
-              width:'65%'
-            }}>
+               flexDirection:'row',
+               justifyContent:'space-between',
+               alignItems: 'flex-start',
+               marginBottom:normalize(5),
+          }}>
+                <View style={{
+                  width:'68%'
+                }}>
+                  <Text style={{
+                    backgroundColor:'#eff8ff',
+                    borderWidth:1,
+                    borderColor:'#bfe3ff',
+                   paddingVertical:normalize(3),
+                   paddingHorizontal:normalize(5),
+                   color:COLORS.themeColor,
+                   marginBottom:normalize(3),
+                   fontSize:normalize(11)
+                  }}>Category</Text>
+                </View>
+                <View style={{
+                  width:'32%',
+                  justifyContent:'flex-end',
+                  alignItems:'flex-end'
+                }}>
+               <Text style={{
+                  color:'#666',
+                  fontSize:normalize(8),
+                  marginBottom:normalize(2),
+                }}>Feb 19, 2024 10:23 AM</Text>
+                <Text style={{
+                  color:'#fff',
+                  fontSize:normalize(9),
+                  textAlign: 'center',
+                  backgroundColor:  COLORS.themeColor,
+                  paddingVertical:normalize(4),
+                  paddingHorizontal:normalize(10),
+                  borderRadius:normalize(4),
+                }}>Open</Text>
+           
+                </View>
+          </View>
+         
                 <Text style={{
                   color:'#000',
                   fontSize:normalize(9),
                   marginBottom:normalize(2)
                 }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
                 molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum</Text>
+              
                 <Text style={{
                   color:'#666',
                   fontSize:normalize(8)
                 }}>Kolkata</Text>
-            </View>
-            <View style={{
-              width:'35%'
-            }}>
-              <Text style={{
-                  color:'#666',
-                  fontSize:normalize(8)
-                }}>Feb 19, 2024 10:23 AM</Text>
-              <TouchableOpacity
-                style={{
-                  backgroundColor:COLORS.themeColor,
-                  padding:normalize(4),
-                  borderRadius:normalize(4),
-                  marginTop:normalize(6)
-                }}
-              >
-                <Text style={{
-                  color:'#fff',
-                  fontSize:normalize(9),
-                  textAlign: 'center'
-                }}>Open</Text>
-              </TouchableOpacity>
-            </View>
         </View>
         <View style={{
           justifyContent: 'center',
