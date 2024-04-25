@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "404419218149",
+    "project_id": "legalmeet-d83db",
+    "storage_bucket": "legalmeet-d83db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:404419218149:android:c6c31063ba848d9eaa620c",
+        "android_client_info": {
+          "package_name": "com.legalexpert"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7rpZVasRpxC_dj-SjeMMcTm4rhGOLOdU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
