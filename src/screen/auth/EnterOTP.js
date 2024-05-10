@@ -10,19 +10,19 @@ import {
   ScrollView,
   TextInput,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import SplashImage from '../../assets/splash.png';
-import {COLORS, ICON, IMAGE} from '../../utils/Theme';
+import { COLORS, ICON, IMAGE } from '../../utils/Theme';
 import MyStatusBar from '../../utils/helpers/MyStatusBar';
 import normalize from '../../utils/helpers/normalize';
 import InputText from '../../components/InputText';
-import {ToastMessage} from '../../utils/helpers/Toast';
-import {useDispatch, useSelector} from 'react-redux';
+import { ToastMessage } from '../../utils/helpers/Toast';
+import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../utils/helpers/Loader';
 import IsInternetConnected from '../../utils/helpers/IsInternetConnected';
-import {loginRequest} from '../../redux/reducer/AuthReducer';
+import { loginRequest, verifyUserIdRequest } from '../../redux/reducer/AuthReducer';
 import messaging from '@react-native-firebase/messaging';
-const EnterOTP = ({navigation}) => {
+const EnterOTP = ({ navigation }) => {
   const [otp1, setotp1] = useState('');
   const [otp2, setotp2] = useState('');
   const [otp3, setotp3] = useState('');
@@ -38,15 +38,15 @@ const EnterOTP = ({navigation}) => {
     return false;
   }
   useEffect(() => {
-    if (!isEmpty(AuthReducer?.verifyUserIdData?.verification_code)) {
-      setotp1(AuthReducer?.verifyUserIdData?.verification_code[0]);
-      setotp2(AuthReducer?.verifyUserIdData?.verification_code[1]);
-      setotp3(AuthReducer?.verifyUserIdData?.verification_code[2]);
-      setotp4(AuthReducer?.verifyUserIdData?.verification_code[3]);
-    }
+    // if (!isEmpty(AuthReducer?.verifyUserIdData?.verification_code)) {
+    //   setotp1(AuthReducer?.verifyUserIdData?.verification_code[0]);
+    //   setotp2(AuthReducer?.verifyUserIdData?.verification_code[1]);
+    //   setotp3(AuthReducer?.verifyUserIdData?.verification_code[2]);
+    //   setotp4(AuthReducer?.verifyUserIdData?.verification_code[3]);
+    // }
   }, []);
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <MyStatusBar
         barStyle={'dark-content'}
         backgroundColor={COLORS.themeColor}
@@ -252,7 +252,7 @@ const EnterOTP = ({navigation}) => {
           </ScrollView>
         </View>
       </ImageBackground> */}
-      <ScrollView style={{flex: 1, backgroundColor: COLORS?.themeColor}}>
+      <ScrollView style={{ flex: 1, backgroundColor: COLORS?.themeColor }}>
         <View
           style={{
             width: Dimensions?.get('window')?.width,
@@ -262,7 +262,7 @@ const EnterOTP = ({navigation}) => {
           }}>
           <Image
             source={ICON?.logo}
-            style={{height: normalize(70), width: normalize(200)}}
+            style={{ height: normalize(70), width: normalize(200) }}
             resizeMode="contain"
           />
         </View>
@@ -328,7 +328,7 @@ const EnterOTP = ({navigation}) => {
           <TextInput
             style={[
               styles.OtpInput,
-              {borderColor: !isEmpty(otp1) ? COLORS.PINK : COLORS.WHITE},
+              { borderColor: !isEmpty(otp1) ? COLORS.PINK : COLORS.WHITE },
             ]}
             keyboardType="numeric"
             maxLength={1}
@@ -340,7 +340,7 @@ const EnterOTP = ({navigation}) => {
                 textInput3.current.focus();
               }
             }}
-            onKeyPress={({nativeEvent}) => {
+            onKeyPress={({ nativeEvent }) => {
               if (nativeEvent.key == 'Backspace') {
                 textInput1.current.focus();
               }
@@ -349,7 +349,7 @@ const EnterOTP = ({navigation}) => {
           <TextInput
             style={[
               styles.OtpInput,
-              {borderColor: !isEmpty(otp1) ? COLORS.PINK : COLORS.WHITE},
+              { borderColor: !isEmpty(otp1) ? COLORS.PINK : COLORS.WHITE },
             ]}
             keyboardType="numeric"
             maxLength={1}
@@ -361,7 +361,7 @@ const EnterOTP = ({navigation}) => {
                 textInput4.current.focus();
               }
             }}
-            onKeyPress={({nativeEvent}) => {
+            onKeyPress={({ nativeEvent }) => {
               if (nativeEvent.key == 'Backspace') {
                 textInput2.current.focus();
               }
@@ -370,7 +370,7 @@ const EnterOTP = ({navigation}) => {
           <TextInput
             style={[
               styles.OtpInput,
-              {borderColor: !isEmpty(otp1) ? COLORS.PINK : COLORS.WHITE},
+              { borderColor: !isEmpty(otp1) ? COLORS.PINK : COLORS.WHITE },
             ]}
             keyboardType="numeric"
             maxLength={1}
@@ -382,14 +382,14 @@ const EnterOTP = ({navigation}) => {
                 textInput4.current.focus();
               }
             }}
-            onKeyPress={({nativeEvent}) => {
+            onKeyPress={({ nativeEvent }) => {
               if (nativeEvent.key == 'Backspace') {
                 textInput3.current.focus();
               }
             }}
           />
         </View>
-        <View style={{marginTop: normalize(20), width: '90%'}}>
+        <View style={{ marginTop: normalize(20), width: '90%' }}>
           <TouchableOpacity
             style={{
               padding: normalize(16),
@@ -406,28 +406,28 @@ const EnterOTP = ({navigation}) => {
               } else {
 
                 messaging()
-                .getToken()
-                .then(device_token => {
-                  console.log('Device token: ', device_token);
-                  IsInternetConnected()
-                    .then(() => {
-                      dispatch(
-                        loginRequest({
-                          mobile_number: AuthReducer?.userId,
-                          verification_code: otp,
-                          type: AuthReducer?.verifyUserIdData?.type,
-                          device_type: Platform.OS === 'ios' ? 2 : 1,
-                          fcm_token: device_token,
-                        }),
-                      );
-                    })
-                    .catch(() => {
-                      Toast('Network connection error');
-                    });
-                })
-                .catch(err => {
-                  console.log(err);
-                });
+                  .getToken()
+                  .then(device_token => {
+                    console.log('Device token: ', device_token);
+                    IsInternetConnected()
+                      .then(() => {
+                        dispatch(
+                          loginRequest({
+                            mobile_number: AuthReducer?.userId,
+                            verification_code: otp,
+                            type: AuthReducer?.verifyUserIdData?.type,
+                            device_type: Platform.OS === 'ios' ? 2 : 1,
+                            fcm_token: device_token,
+                          }),
+                        );
+                      })
+                      .catch(() => {
+                        Toast('Network connection error');
+                      });
+                  })
+                  .catch(err => {
+                    console.log(err);
+                  });
 
                 // IsInternetConnected()
                 //   .then(() => {
@@ -453,19 +453,51 @@ const EnterOTP = ({navigation}) => {
               VERIFY
             </Text>
           </TouchableOpacity>
-          <Text
-            style={{
-              color: '#5B5B5B',
-              fontSize: normalize(12),
-              fontWeight: '500',
-              textAlign: 'center',
-              marginTop: normalize(20),
-            }}
-            onPress={() => {
-              // navigation.navigate('ResendOTP');
-            }}>
-            Didn’t receive OTP?
-          </Text>
+
+          <View style={{ flexDirection: "row", alignItems: "center", marginVertical: normalize(20), justifyContent: "center" }}>
+
+
+            <Text
+              style={{
+                color: '#5B5B5B',
+                fontSize: normalize(12),
+                fontWeight: '500',
+                textAlign: 'center',
+                // marginTop: normalize(20),
+              }}
+              onPress={() => {
+                // navigation.navigate('ResendOTP');
+              }}>
+              Didn’t receive OTP?
+            </Text>
+
+            <TouchableOpacity
+              onPress={() => {
+
+                IsInternetConnected()
+                  .then(() => {
+                    dispatch(
+                      verifyUserIdRequest({
+                        mobile_number: AuthReducer?.userId,
+                        user_type: '2',
+
+                      }),
+                    );
+                  })
+                  .catch(() => {
+                    Toast('Network connection error');
+                  });
+              }}
+              style={{ marginHorizontal: normalize(10) }}
+            >
+              <Text style={{color:COLORS.themeColor}}>Resend otp</Text>
+            </TouchableOpacity>
+          </View>
+
+
+
+
+
         </View>
       </View>
     </SafeAreaView>

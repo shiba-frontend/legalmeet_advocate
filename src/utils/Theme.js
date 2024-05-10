@@ -17,9 +17,9 @@ export const IMAGE = {
   advocate: require('../assets/image/advocate.png'),
   banner: require('../assets/banner_bg.png'),
 
-  image1: require('../assets/image/image1.png'),
-  image2: require('../assets/image/image2.png'),
-  image3: require('../assets/image/image3.png'),
+  image1: require('../assets/image/slider_one.png'),
+  image2: require('../assets/image/slider_two.png'),
+  image3: require('../assets/image/slider_three.png'),
 
   no_data: require('../assets/new/no_data.png'),
   header_profile: require('../assets/new/user-square.png'),

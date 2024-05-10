@@ -11,15 +11,15 @@ import {
   FlatList,
   TextInput,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import SplashImage from '../../assets/splash.png';
-import {COLORS, ICON, IMAGE} from '../../utils/Theme';
+import { COLORS, ICON, IMAGE } from '../../utils/Theme';
 import MyStatusBar from '../../utils/helpers/MyStatusBar';
 import normalize from '../../utils/helpers/normalize';
 import InputText from '../../components/InputText';
-import {ToastMessage} from '../../utils/helpers/Toast';
-import {useDispatch, useSelector} from 'react-redux';
-import {verifyUserIdRequest} from '../../redux/reducer/AuthReducer';
+import { ToastMessage } from '../../utils/helpers/Toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { verifyUserIdRequest } from '../../redux/reducer/AuthReducer';
 import Loader from '../../utils/helpers/Loader';
 import IsInternetConnected from '../../utils/helpers/IsInternetConnected';
 import {
@@ -35,7 +35,7 @@ import Header from '../../utils/helpers/Header';
 import Modal from 'react-native-modal';
 
 var status = '';
-const AddMember = ({navigation, route}) => {
+const AddMember = ({ navigation, route }) => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [client, setClient] = useState('');
@@ -59,6 +59,10 @@ const AddMember = ({navigation, route}) => {
   const textInput4 = useRef(null);
   const AuthReducer = useSelector(state => state.AuthReducer);
   const PostReducer = useSelector(state => state.PostReducer);
+
+
+  console.log("hhhhhh", PostReducer?.memberAdded)
+
   function isEmpty(item) {
     if (item == '' || item == undefined || item == null) return true;
     return false;
@@ -92,7 +96,7 @@ const AddMember = ({navigation, route}) => {
   const dispatch = useDispatch();
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <MyStatusBar barStyle={'dark-content'} backgroundColor={COLORS.WHITE} />
       <Header
         isMenuPresent={false}
@@ -113,7 +117,8 @@ const AddMember = ({navigation, route}) => {
           // setOtpModal(false);
         }}
         backdropTransitionOutTiming={0}
-        style={{margin: 0, flex: 1, justifyContent: 'center'}}>
+        style={{ margin: 0, flex: 1, justifyContent: 'center' }}>
+
         <View
           style={{
             height: Dimensions.get('screen').height / 3.5,
@@ -123,15 +128,41 @@ const AddMember = ({navigation, route}) => {
             backgroundColor: '#EEE',
             borderRadius: 20,
             // padding: normalize(40),
-            alignItems: 'center',
+            // alignItems: 'center',
             alignSelf: 'center',
           }}>
+          <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: normalize(10) }}>
+            <Text></Text>
+            <TouchableOpacity onPress={() => {
+              setOtpModal(false);
+            }}>
+              <Image
+                source={
+                  ICON?.close_circle
+                }
+                style={{
+                  height: normalize(20),
+                  width: normalize(20),
+
+                }}
+                resizeMode="cover"
+              />
+            </TouchableOpacity>
+          </View>
+
+
+
+
+
+
           <View
             style={{
               justifyContent: 'space-between',
               flexDirection: 'row',
               width: '80%',
               marginTop: normalize(10),
+              alignSelf: "center"
+
             }}>
             <View>
               <TextInput
@@ -156,7 +187,7 @@ const AddMember = ({navigation, route}) => {
             <TextInput
               style={[
                 styles.OtpInput,
-                {borderColor: !isEmpty(otp1) ? COLORS.PINK : COLORS.WHITE},
+                { borderColor: !isEmpty(otp1) ? COLORS.PINK : COLORS.WHITE },
               ]}
               keyboardType="numeric"
               maxLength={1}
@@ -168,7 +199,7 @@ const AddMember = ({navigation, route}) => {
                   textInput3.current.focus();
                 }
               }}
-              onKeyPress={({nativeEvent}) => {
+              onKeyPress={({ nativeEvent }) => {
                 if (nativeEvent.key == 'Backspace') {
                   textInput1.current.focus();
                 }
@@ -177,7 +208,7 @@ const AddMember = ({navigation, route}) => {
             <TextInput
               style={[
                 styles.OtpInput,
-                {borderColor: !isEmpty(otp1) ? COLORS.PINK : COLORS.WHITE},
+                { borderColor: !isEmpty(otp1) ? COLORS.PINK : COLORS.WHITE },
               ]}
               keyboardType="numeric"
               maxLength={1}
@@ -189,7 +220,7 @@ const AddMember = ({navigation, route}) => {
                   textInput4.current.focus();
                 }
               }}
-              onKeyPress={({nativeEvent}) => {
+              onKeyPress={({ nativeEvent }) => {
                 if (nativeEvent.key == 'Backspace') {
                   textInput2.current.focus();
                 }
@@ -198,7 +229,7 @@ const AddMember = ({navigation, route}) => {
             <TextInput
               style={[
                 styles.OtpInput,
-                {borderColor: !isEmpty(otp1) ? COLORS.PINK : COLORS.WHITE},
+                { borderColor: !isEmpty(otp1) ? COLORS.PINK : COLORS.WHITE },
               ]}
               keyboardType="numeric"
               maxLength={1}
@@ -210,25 +241,27 @@ const AddMember = ({navigation, route}) => {
                   textInput4.current.focus();
                 }
               }}
-              onKeyPress={({nativeEvent}) => {
+              onKeyPress={({ nativeEvent }) => {
                 if (nativeEvent.key == 'Backspace') {
                   textInput3.current.focus();
                 }
               }}
             />
           </View>
-          <View style={{width: '100%', paddingLeft: normalize(20)}}>
+          {/* <View style={{ width: '100%', paddingHorizontal: normalize(30), alignItems: "center" }}>
             <Text
               style={{
                 marginTop: normalize(10),
                 textAlign: 'left',
                 alignSelf: 'flex-start',
+                color: "black"
               }}>
-              OTP is {PostReducer?.memberAdded?.otp}
+              OTP is 
+              {PostReducer?.memberAdded?.verification_code}
             </Text>
-          </View>
+          </View> */}
 
-          <View style={{marginTop: normalize(20), width: '90%'}}>
+          <View style={{ marginTop: normalize(20), width: '100%', paddingHorizontal: normalize(30) }}>
             <TouchableOpacity
               style={{
                 padding: normalize(10),
@@ -259,7 +292,7 @@ const AddMember = ({navigation, route}) => {
                     });
                 }
               }}>
-              <Text style={{color: COLORS.WHITE, letterSpacing: normalize(2)}}>
+              <Text style={{ color: COLORS.WHITE, letterSpacing: normalize(2) }}>
                 VERIFY
               </Text>
             </TouchableOpacity>
@@ -267,9 +300,9 @@ const AddMember = ({navigation, route}) => {
         </View>
       </Modal>
       <ScrollView
-        contentContainerStyle={{flex: 1, paddingHorizontal: normalize(10)}}>
-        <View style={{alignItems: 'center'}}>
-          <View style={{marginTop: normalize(10), width: '100%'}}>
+        contentContainerStyle={{ flex: 1, paddingHorizontal: normalize(10) }}>
+        <View style={{ alignItems: 'center' }}>
+          <View style={{ marginTop: normalize(10), width: '100%' }}>
             <Text
               style={{
                 marginVertical: normalize(3),
@@ -297,7 +330,7 @@ const AddMember = ({navigation, route}) => {
             />
           </View>
 
-          <View style={{marginTop: normalize(7), width: '100%'}}>
+          <View style={{ marginTop: normalize(7), width: '100%' }}>
             <Text
               style={{
                 marginVertical: normalize(3),
@@ -326,12 +359,12 @@ const AddMember = ({navigation, route}) => {
             />
           </View>
 
-          <View style={{flexGrow: 0}}>
+          <View style={{ flexGrow: 0 }}>
             <FlatList
-              style={{flexGrow: 0, marginTop: normalize(20)}}
+              style={{ flexGrow: 0, marginTop: normalize(20) }}
               data={types}
               horizontal={true}
-              renderItem={({item, index}) => {
+              renderItem={({ item, index }) => {
                 return (
                   <TouchableOpacity
                     style={{
@@ -361,13 +394,13 @@ const AddMember = ({navigation, route}) => {
                       }}
                       resizeMode="contain"
                     />
-                    <Text style={{marginLeft: normalize(10)}}>{item}</Text>
+                    <Text style={{ marginLeft: normalize(10) }}>{item}</Text>
                   </TouchableOpacity>
                 );
               }}
             />
           </View>
-          <View style={{marginTop: normalize(20), width: '90%'}}>
+          <View style={{ marginTop: normalize(20), width: '90%' }}>
             <TouchableOpacity
               style={{
                 padding: normalize(13),
@@ -398,7 +431,7 @@ const AddMember = ({navigation, route}) => {
                     });
                 }
               }}>
-              <Text style={{color: COLORS.WHITE, letterSpacing: normalize(2)}}>
+              <Text style={{ color: COLORS.WHITE, letterSpacing: normalize(2) }}>
                 NEXT
               </Text>
             </TouchableOpacity>

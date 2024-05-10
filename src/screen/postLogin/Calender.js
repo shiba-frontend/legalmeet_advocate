@@ -32,6 +32,7 @@ import {
   TentativeCauseListRequest,
   clientListRequest,
   updatePageName,
+  caseHearingPdfLinkRequest,
 } from '../../redux/reducer/PostReducer';
 import call from 'react-native-phone-call';
 import {useCallback} from 'react';
@@ -51,8 +52,9 @@ const Calender = ({navigation}) => {
     moment(new Date()).format('YYYY-MM-DD'),
   );
   const [selectedDayHearings, setSelectedDayHearings] = useState([]);
-
-console.log("====", selectedDayHearings)
+  const CaseHeairingPdfLink = useSelector(state => state.PostReducer?.caseHearingPdfLinkResponse);
+console.log("CaseHeairingPdfLink", CaseHeairingPdfLink)
+console.log("PostReducer?.TentativeCause", PostReducer)
 
 
   if (status == '' || status != PostReducer?.status) {
@@ -82,7 +84,7 @@ console.log("====", selectedDayHearings)
       dateArray.push(element?.date_original);
       console.log('1234', dateArray);
       if (element?.date_original == selectedDay) {
-array = [...array, element];
+       array = [...array, element];
         // setSelectedDayHearings([...PostReducer?.hearingList, element]);
       }
     });
@@ -113,8 +115,6 @@ array = [...array, element];
 
 
   useEffect(() => {
-
-
     IsInternetConnected()
       .then(() => {
         dispatch(TentativeCauseListRequest({date: selectedDay}));
@@ -122,12 +122,111 @@ array = [...array, element];
       .catch(() => {
         ToastMessage('Network connection issue');
       });
+
+      // const getExtension = (url) => {
+      //   return url.split('.').pop();
+      // };
+
   }, []);
+
+
+  const downloadFile = () => {
+    const url = 'https://example.com/file.pdf';
+    
+    // Fetch the file
+    RNFetchBlob.config({
+      fileCache: true,
+      addAndroidDownloads : {
+        useDownloadManager : true,
+        notification : true,
+        path: RNFetchBlob.fs.dirs.DownloadDir + "/file.pdf",
+        description : 'Downloading file.'
+      }
+    })
+    .fetch('GET', url)
+    .then(res => {
+      console.log('File downloaded:', res.path());
+    })
+    .catch(error => {
+      console.error('Error downloading file:', error);
+    });
+  }
+
+
+  useEffect(() => {
+    IsInternetConnected()
+      .then(() => {
+        dispatch(caseHearingPdfLinkRequest({date: selectedDay}));
+      })
+      .catch(() => {
+        ToastMessage('Network connection issue');
+      });
+
+  }, [selectedDay]);
+
+
+
+
+
 
   function isEmpty(item) {
     if (item == '' || item == null || item == undefined) return true;
     return false;
   }
+
+
+
+  function onPressDownload(uri) {
+
+    let date = new Date();
+
+    let image_URL = uri;
+
+    let ext = getExtention(image_URL);
+    ext = '.' + ext[0];
+
+    const {config, fs} = RNFetchBlob;
+
+
+    let PictureDir = fs.dirs.DownloadDir;
+
+    let options = {
+      fileCache: true,
+      addAndroidDownloads: {
+        // Related to the Android only
+        useDownloadManager: true,
+        notification: true,
+ 
+        path:
+          PictureDir +
+          '/image_' +
+          Math.floor(date.getTime() + date.getSeconds() / 2) +
+          ext,
+        description: 'Image',
+      },
+    };
+    console.log("all",options, uri);
+ 
+    config(options)
+      .fetch('GET', image_URL)
+      .then(res => {
+        // Showing alert after successful downloading
+        console.log('res -> ', res);
+    
+ 
+        Toast('Photo downloaded successfully at');
+      })
+      .catch(err => {
+        console.log("err",err);
+       
+      });
+  }
+
+
+
+
+
+
 
   return (
     <SafeAreaView
@@ -521,6 +620,10 @@ array = [...array, element];
             );
           }}
         />
+
+
+{selectedDayHearings.length == 0 ? null :
+
          <View>
                       <TouchableOpacity style={{
                         backgroundColor:COLORS.themeColor,
@@ -530,33 +633,30 @@ array = [...array, element];
                       }}
                       
                       onPress={() => {
-                        console.log(PostReducer?.TentativeCause);
-                        if (PostReducer?.TentativeCause) {
-                          const android = RNFetchBlob.android;
-            
+                    
+                       
+                    
+                          const url = CaseHeairingPdfLink?.link;
+                          console.log("url",url)
+                          // Fetch the file
                           RNFetchBlob.config({
-                            addAndroidDownloads: {
-                              useDownloadManager: true,
-                              title: 'causelist.pdf',
-                              description: 'An awesome PDF',
-                              mime: 'application/pdf',
-                              mediaScannable: true,
-                              notification: true,
-                            },
+                            fileCache: true,
+                            addAndroidDownloads : {
+                              useDownloadManager : true,
+                              notification : true,
+                              path: RNFetchBlob.fs.dirs.DownloadDir + "/file.pdf",
+                              description : 'Downloading file.'
+                            }
                           })
-                            .fetch('GET', PostReducer?.TentativeCause)
-                            .then(res => {
-                              const path = res.path();
-                              if (Platform.OS === 'ios') {
-                                RNFetchBlob.ios.openDocument(path);
-                              } else {
-                                android.actionViewIntent(path, 'application/pdf');
-                              }
-                            });
-                        }
-                        // Linking.openURL(PostReducer?.caseDetail?.generate_pdf).catch(
-                        //   err => console.error('An error occurred', err),
-                        // );
+                          .fetch('GET', url)
+                          .then(res => {
+                            console.log('File downloaded:', res.path());
+                          })
+                          .catch(error => {
+                            console.error('Error downloading file:', error);
+                          });
+                        
+                        
                       }}
                       
                       >
@@ -566,7 +666,7 @@ array = [...array, element];
                             fontSize:normalize(12)
                           }}>Export PDF</Text>
                       </TouchableOpacity>
-                  </View>
+                  </View>}
           </View>
       </ScrollView>
     </SafeAreaView>

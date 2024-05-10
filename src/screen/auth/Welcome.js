@@ -30,22 +30,93 @@ export default function Welcome(props) {
     <>
       <MyStatusBar barStyle={'dark-content'} backgroundColor={COLORS.white} />
       <SafeAreaView>
-        <View>
-          <ImageBackground
-            // resizeMode="stretch"
-            source={
-              step == 1
-                ? IMAGE.image1
-                : step == 2
-                ? IMAGE?.image2
-                : IMAGE?.image3
-            }
-            imageStyle={{
-              height: Dimensions?.get('window')?.height,
-              width: Dimensions?.get('window')?.width,
+        <View style={{
+          height: Dimensions?.get('window')?.height,
+          width: Dimensions?.get('window')?.width,
+        }}>
+      {step == 1 ?
+     <View style={{
+      backgroundColor:'#f2f2f2',
+      flex:1,
+      padding:normalize(10)
+    }}>
+       <Image
+          source={IMAGE.image2}
+          style={{
+           
+          }}
+          resizeMode="contain"
+        />
+        <Text style={{
+          fontSize: normalize(25),
+          fontWeight:'800',
+          color:COLORS.themeColor,
+          marginTop:normalize(10)
+        }}>Welcome to Legalmeet</Text>
+        <Text  style={{
+          fontSize: normalize(17),
+          fontWeight:'600',
+          color:COLORS.themeColor
+        }}>Empowering Voices, Inspiring Change</Text>
+    </View>
+      :
+      step == 2 ?
+      <View style={{
+        backgroundColor:'#f2f2f2',
+        flex:1,
+        padding:normalize(10)
+      }}>
+         <Image
+            source={IMAGE.image2}
+            style={{
+             
             }}
-            style={styles.container}>
-            <View
+            resizeMode="contain"
+          />
+          <Text style={{
+             fontSize: normalize(25),
+             fontWeight:'800',
+            color:COLORS.themeColor,
+            marginTop:normalize(10)
+          }}>Transform Ideas into Action</Text>
+          <Text  style={{
+             fontSize: normalize(17),
+             fontWeight:'600',
+            color:COLORS.themeColor
+          }}>Your Platform for Social Impact </Text>
+      </View>
+      :
+      <View style={{
+        backgroundColor:'#f2f2f2',
+        flex:1,
+        padding:normalize(10)
+      }}>
+         <Image
+            source={IMAGE.image3}
+            style={{
+             
+            }}
+            resizeMode="contain"
+          />
+          <Text style={{
+            fontSize: normalize(25),
+            fontWeight:'800',
+            color:COLORS.themeColor,
+            marginTop:normalize(10)
+          }}>Raise Your Voice, Make a Difference</Text>
+          <Text  style={{
+            fontSize: normalize(17),
+            fontWeight:'600',
+            color:COLORS.themeColor
+          }}>Catalyst for Positive Change</Text>
+      </View>
+      }
+       
+
+
+         
+
+          <View
               style={{
                 position: 'absolute',
                 bottom: normalize(0),
@@ -108,8 +179,23 @@ export default function Welcome(props) {
                 Next
               </Text>
             </View>
-          </ImageBackground>
         </View>
+        {/* <ImageBackground
+            // resizeMode="stretch"
+            source={
+              step == 1
+                ? IMAGE.image1
+                : step == 2
+                ? IMAGE?.image2
+                : IMAGE?.image3
+            }
+            imageStyle={{
+              height: Dimensions?.get('window')?.height,
+              width: Dimensions?.get('window')?.width,
+            }}
+            style={styles.container}>
+          
+          </ImageBackground> */}
       </SafeAreaView>
     </>
   );

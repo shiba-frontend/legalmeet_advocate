@@ -11,14 +11,14 @@ import {
   FlatList,
   Linking,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import SplashImage from '../../assets/splash.png';
-import {COLORS, ICON, IMAGE} from '../../utils/Theme';
+import { COLORS, ICON, IMAGE } from '../../utils/Theme';
 import MyStatusBar from '../../utils/helpers/MyStatusBar';
 import normalize from '../../utils/helpers/normalize';
 import InputText from '../../components/InputText';
-import {ToastMessage} from '../../utils/helpers/Toast';
-import {useDispatch, useSelector} from 'react-redux';
+import { ToastMessage } from '../../utils/helpers/Toast';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   cmsDataRequest,
   verifyUserIdRequest,
@@ -28,23 +28,26 @@ import IsInternetConnected from '../../utils/helpers/IsInternetConnected';
 import Header from '../../utils/helpers/Header';
 import moment from 'moment';
 import * as Progress from 'react-native-progress';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import {
   allHearingRequest,
   caseDetailRequest,
   enquiryListRequest,
+  getFreeTrialRequest,
   getProfileRequest,
   getWalletRequest,
 } from '../../redux/reducer/PostReducer';
-import {useFocusEffect} from '@react-navigation/native';
-import {navigate} from '../../utils/helpers/RootNavigation';
+import { useFocusEffect } from '@react-navigation/native';
+import { navigate } from '../../utils/helpers/RootNavigation';
+import Modal from 'react-native-modal';
 var status = '';
-const Dashboard = ({navigation}) => {
+const Dashboard = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [AleartModal, setAleartModal] = useState(false);
   const AuthReducer = useSelector(state => state.AuthReducer);
   const PostReducer = useSelector(state => state.PostReducer);
 
-  console.log('Hearing======', PostReducer?.todayhearing);
+  console.log('Hearing======', PostReducer?.profileData?.is_prev_subscribed);
 
   const dispatch = useDispatch();
   useFocusEffect(
@@ -53,16 +56,20 @@ const Dashboard = ({navigation}) => {
         .then(() => {
           dispatch(allHearingRequest());
           dispatch(enquiryListRequest());
-          dispatch(cmsDataRequest({alias: 'about-us'}));
+          dispatch(cmsDataRequest({ alias: 'about-us' }));
           dispatch(getWalletRequest());
           dispatch(getProfileRequest());
+          if (PostReducer?.profileData?.is_prev_subscribed == false) {
+            setAleartModal(true)
+
+          }
         })
         .catch(() => {
           ToastMessage('Network connection issue');
         });
     }, []),
   );
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
   function isEmpty(item) {
     if (item == '' || item == null || item == undefined) return true;
     return false;
@@ -102,7 +109,7 @@ const Dashboard = ({navigation}) => {
   ];
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#fefefe'}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fefefe' }}>
       <MyStatusBar barStyle={'dark-content'} backgroundColor={COLORS.WHITE} />
       <Header
         isMenuPresent={true}
@@ -123,7 +130,7 @@ const Dashboard = ({navigation}) => {
             <View>
               {Number(PostReducer?.profileData?.complete_profile_percentage) /
                 100 <
-              1 ? (
+                1 ? (
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate('Profile');
@@ -144,13 +151,13 @@ const Dashboard = ({navigation}) => {
                       borderWidth: normalize(1),
                       borderRadius: normalize(5),
                     }}>
-                    <View style={{flexDirection: 'row', gap: normalize(10)}}>
+                    <View style={{ flexDirection: 'row', gap: normalize(10) }}>
                       <View>
                         <Image
                           source={
                             PostReducer?.profileData?.profile_image == ''
                               ? ICON.profile_image
-                              : {uri: PostReducer?.profileData?.profile_image}
+                              : { uri: PostReducer?.profileData?.profile_image }
                           }
                           style={{
                             height: normalize(60),
@@ -242,7 +249,7 @@ const Dashboard = ({navigation}) => {
                       PostReducer?.profileData?.complete_profile_percentage,
                     ) /
                       100 <
-                    1 ? (
+                      1 ? (
                       <View
                         style={{
                           marginTop: normalize(10),
@@ -342,7 +349,7 @@ const Dashboard = ({navigation}) => {
                             backgroundColor: 'green',
                             borderRadius: normalize(10),
                           }}></View>
-                        <Text style={{color: '#000', fontSize: normalize(9)}}>
+                        <Text style={{ color: '#000', fontSize: normalize(9) }}>
                           Total Income
                         </Text>
                       </View>
@@ -372,7 +379,7 @@ const Dashboard = ({navigation}) => {
                             backgroundColor: 'red',
                             borderRadius: normalize(10),
                           }}></View>
-                        <Text style={{color: '#000', fontSize: normalize(9)}}>
+                        <Text style={{ color: '#000', fontSize: normalize(9) }}>
                           Total Withdrawl
                         </Text>
                       </View>
@@ -402,7 +409,7 @@ const Dashboard = ({navigation}) => {
                             backgroundColor: '#000',
                             borderRadius: normalize(10),
                           }}></View>
-                        <Text style={{color: '#000', fontSize: normalize(9)}}>
+                        <Text style={{ color: '#000', fontSize: normalize(9) }}>
                           Pending
                         </Text>
                       </View>
@@ -445,9 +452,9 @@ const Dashboard = ({navigation}) => {
                           marginBottom: normalize(15),
                         }}
                         onPress={() => {
-                         
-                            navigation.navigate(item?.item?.page);
-                          
+
+                          navigation.navigate(item?.item?.page);
+
                         }}>
                         <Image
                           source={item?.item?.image}
@@ -473,7 +480,7 @@ const Dashboard = ({navigation}) => {
               <ImageBackground
                 source={IMAGE.displayboard_bg}
                 resizeMode="cover"
-                imageStyle={{borderRadius: normalize(7)}}
+                imageStyle={{ borderRadius: normalize(7) }}
                 style={{
                   marginVertical: normalize(15),
                   padding: normalize(15),
@@ -493,7 +500,7 @@ const Dashboard = ({navigation}) => {
                         height: normalize(25),
                       }}
                       resizeMode="contain"
-                   
+
                     />
                     <Text
                       style={{
@@ -532,16 +539,16 @@ const Dashboard = ({navigation}) => {
                       Today Cases ({PostReducer?.todayhearing?.length})
                     </Text>
                     <TouchableOpacity
-                    onPress={()=>{
-                      navigation.navigate("AlltodayCase")
-                    }}
+                      onPress={() => {
+                        navigation.navigate("AlltodayCase")
+                      }}
                     >
-                        <Text>View All</Text>
+                      <Text>View All</Text>
                     </TouchableOpacity>
                   </View>
 
                   <FlatList
-                    data={PostReducer?.todayhearing?.slice(0,5)}
+                    data={PostReducer?.todayhearing?.slice(0, 5)}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                     style={
@@ -550,7 +557,7 @@ const Dashboard = ({navigation}) => {
                         // alignSelf: 'center',
                       }
                     }
-                    renderItem={({item, index}) => {
+                    renderItem={({ item, index }) => {
                       return (
                         <TouchableOpacity
                           style={{
@@ -614,7 +621,7 @@ const Dashboard = ({navigation}) => {
                             </Text>
                           </View>
 
-                        
+
                           <View
                             style={{
                               flexDirection: 'row',
@@ -687,7 +694,7 @@ const Dashboard = ({navigation}) => {
         //     </View>
         //   );
         // }}
-        ListFooterComponent={({item, index}) => {
+        ListFooterComponent={({ item, index }) => {
           return (
             <View
               style={{
@@ -712,7 +719,7 @@ const Dashboard = ({navigation}) => {
               ) : null}
               <FlatList
                 data={PostReducer?.enquiryList?.slice(0, 3)}
-                renderItem={({item, index}) => {
+                renderItem={({ item, index }) => {
                   return (
                     <View
                       style={{
@@ -753,11 +760,11 @@ const Dashboard = ({navigation}) => {
                           }}
                           onPress={() => {
                             if (PostReducer?.profileData?.is_subscribed) {
-                              navigate('Message', {item: item});
+                              navigate('Message', { item: item });
                             } else {
                               navigation.navigate('expire');
                             }
-                           
+
                           }}>
                           <Text
                             style={{
@@ -790,40 +797,40 @@ const Dashboard = ({navigation}) => {
                         }}>
                         {item?.description}
                       </Text>
-                        <View style={{
-                          marginTop: normalize(3)
-                        }}>
-                          {
-                            item?.client?.user_type === 1 ?
-                          
-                        <View>
-                          <Text style={{
-                            color:'#000',
-                            fontSize:normalize(9),
-                            fontWeight:'600'
-                          }}>{item?.name}</Text>
-                          <Text style={{
-                            color:'#666',
-                            fontSize:normalize(9),
-                            fontWeight:'400'
-                          }}>{item?.city}, {item?.state} </Text>
-                        </View>
-                        :
-                        <View>
-                        <Text style={{
-                          color:'#000',
-                          fontSize:normalize(9),
-                          fontWeight:'600'
-                        }}>{item?.client?.name}</Text>
-                        <Text style={{
-                          color:'#666',
-                          fontSize:normalize(9),
-                          fontWeight:'400'
-                        }}>{item?.client?.district}, {item?.client?.state} </Text>
+                      <View style={{
+                        marginTop: normalize(3)
+                      }}>
+                        {
+                          item?.client?.user_type === 1 ?
+
+                            <View>
+                              <Text style={{
+                                color: '#000',
+                                fontSize: normalize(9),
+                                fontWeight: '600'
+                              }}>{item?.name}</Text>
+                              <Text style={{
+                                color: '#666',
+                                fontSize: normalize(9),
+                                fontWeight: '400'
+                              }}>{item?.city}, {item?.state} </Text>
+                            </View>
+                            :
+                            <View>
+                              <Text style={{
+                                color: '#000',
+                                fontSize: normalize(9),
+                                fontWeight: '600'
+                              }}>{item?.client?.name}</Text>
+                              <Text style={{
+                                color: '#666',
+                                fontSize: normalize(9),
+                                fontWeight: '400'
+                              }}>{item?.client?.district}, {item?.client?.state} </Text>
+                            </View>
+                        }
                       </View>
-                }
-                      </View>
-                    
+
                     </View>
                   );
                 }}
@@ -962,6 +969,114 @@ const Dashboard = ({navigation}) => {
           );
         }}
       />
+      <Modal
+        isVisible={AleartModal}
+        animationIn="fadeIn"
+        animationOut="fadeOut"
+        animationInTiming={800}
+        animationOutTiming={100}
+        hasBackdrop={true}
+        onBackdropPress={() => {
+          // setOtpModal(false);
+        }}
+        backdropTransitionOutTiming={0}
+        style={{ margin: 0, flex: 1, justifyContent: 'center' }}>
+
+        <View
+          style={{
+            height: Dimensions.get('screen').height / 2.9,
+            width: '90%',
+            paddingTop: 10,
+            // paddingHorizontal: 30,
+            backgroundColor: '#EEE',
+            borderRadius: 20,
+            // padding: normalize(40),
+            // alignItems: 'center',
+            alignSelf: 'center',
+          }}>
+          <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: normalize(10) }}>
+            <Text></Text>
+            <TouchableOpacity onPress={() => {
+              setAleartModal(false);
+            }}>
+              <Image
+                source={
+                  ICON?.close_circle
+                }
+                style={{
+                  height: normalize(20),
+                  width: normalize(20),
+
+                }}
+                resizeMode="cover"
+              />
+            </TouchableOpacity>
+          </View>
+
+
+
+
+
+
+
+
+          <View style={{ marginTop: normalize(20), width: '100%', paddingHorizontal: normalize(30) }}>
+            <View
+              style={{
+                // padding: normalize(10),
+                // backgroundColor: COLORS.STATUS_BAR,
+                // borderRadius: normalize(10),
+                alignItems: 'center',
+              }}
+            >
+              <Image
+                source={
+                  IMAGE?.employee_benefits
+                }
+                style={{
+                  height: normalize(70),
+                  width: normalize(70),
+
+                }}
+                resizeMode="cover"
+              />
+              <Text style={{ color: COLORS.themeColor, fontWeight: "700", marginTop: normalize(15), fontSize: normalize(14) }}>
+                You have a 14 days free trial
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={{
+                padding: normalize(10),
+                backgroundColor: COLORS.STATUS_BAR,
+                borderRadius: normalize(10),
+                alignItems: 'center',
+                marginTop: normalize(15)
+              }}
+
+              onPress={()=>{
+                
+
+
+                IsInternetConnected()
+                .then(() => {
+                  dispatch(getFreeTrialRequest({user_type:1}));
+                  setAleartModal(false);
+                })
+                .catch(() => {
+                  ToastMessage('Network connection issue');
+
+                });
+              }}
+            >
+
+              <Text style={{ color: COLORS.WHITE, fontWeight: "700", fontSize: normalize(14) }}>
+                Get free trial
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
     </SafeAreaView>
   );
 };

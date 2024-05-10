@@ -165,7 +165,11 @@ import PostReducer, {
   CauseListRequestSuccess,
   CauseListRequestFailure,
   TentativeCauseListRequestSuccess,
-  TentativeCauseListRequestFailure
+  TentativeCauseListRequestFailure,
+  caseHearingPdfLinkSuccess,
+  caseHearingPdfLinkFailure,
+  getFreeTrialSuccess,
+  getFreeTrialFailure
 } from '../reducer/PostReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {updateAuthToken} from '../reducer/AuthReducer';
@@ -2709,7 +2713,7 @@ export function* TentativeCauseListRequestSaga(action) {
       contenttype: 'application/json',
       Authorization: data?.authToken,
     };
-    console.log(action.payload);
+    console.log("case pdf",action.payload);
     let response = yield call(postApi, 'case-hearing-pdf', action.payload, header);
     console.log("calenser===", response);
     if (response) {
@@ -2722,6 +2726,56 @@ export function* TentativeCauseListRequestSaga(action) {
   } catch (e) {
     // yield put(updateAppStateFailure(action.payload));
     yield put(TentativeCauseListRequestFailure(e));
+    ToastMessage(e?.response?.data?.message);
+  }
+}
+
+
+export function* caseHearingPdfLinkRequestSaga(action) {
+  try {
+    const AuthReducer = state => state.AuthReducer;
+    const data = yield select(AuthReducer);
+    let header = {
+      Accept: 'application/json',
+      contenttype: 'application/json',
+      Authorization: data?.authToken,
+    };
+    let response = yield call(postApi, 'case-hearing-pdf-link', action.payload, header);
+    console.log("link pdf ===", response?.data);
+    if (response) {
+      yield put(caseHearingPdfLinkSuccess(response.data?.data));
+      // ToastMessage(response?.data?.message);
+    } else {
+      yield put(caseHearingPdfLinkFailure(response?.data));
+      // ToastMessage(response?.data?.message);
+    }
+  } catch (e) {
+    // yield put(updateAppStateFailure(action.payload));
+    yield put(caseHearingPdfLinkFailure(e));
+    ToastMessage(e?.response?.data?.message);
+  }
+}
+export function* getFreeTrialRequestSaga(action) {
+  try {
+    const AuthReducer = state => state.AuthReducer;
+    const data = yield select(AuthReducer);
+    let header = {
+      Accept: 'application/json',
+      contenttype: 'application/json',
+      Authorization: data?.authToken,
+    };
+    let response = yield call(postApi, 'get-free-subscription', action.payload, header);
+    console.log("free subscription ===", response?.data);
+    if (response) {
+      yield put(getFreeTrialSuccess(response.data?.data));
+      // ToastMessage(response?.data?.message);
+    } else {
+      yield put(getFreeTrialFailure(response?.data));
+      // ToastMessage(response?.data?.message);
+    }
+  } catch (e) {
+    // yield put(updateAppStateFailure(action.payload));
+    yield put(getFreeTrialFailure(e));
     ToastMessage(e?.response?.data?.message);
   }
 }
@@ -3033,6 +3087,12 @@ const watchFunction = [
   })(),
   (function* () {
     yield takeLatest('post/assignServiceRequest', assignServiceRequestSaga);
+  })(),
+  (function* () {
+    yield takeLatest('post/caseHearingPdfLinkRequest', caseHearingPdfLinkRequestSaga);
+  })(),
+  (function* () {
+    yield takeLatest('post/getFreeTrialRequest', getFreeTrialRequestSaga);
   })(),
 ];
 

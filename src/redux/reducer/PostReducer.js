@@ -64,7 +64,9 @@ const postSlice = createSlice({
     requestList: [],
     getWallet: '',
     getCause:[],
-   TentativeCause:''
+   TentativeCause:'',
+   caseHearingPdfLinkResponse:[],
+   getFreeTrialResponse:null
   },
   reducers: {
     getProfileRequest(state, action) {
@@ -1221,10 +1223,46 @@ const postSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+
+    caseHearingPdfLinkRequest(state, action) {
+      state.status = action.type;
+      state.loading = true;
+    },
+    caseHearingPdfLinkSuccess(state, action) {
+      state.status = action.type;
+      state.loading = false;
+      state.caseHearingPdfLinkResponse = action?.payload;
+    },
+    caseHearingPdfLinkFailure(state, action) {
+      state.status = action.type;
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+
+    getFreeTrialRequest(state, action) {
+      state.status = action.type;
+      state.loading = true;
+    },
+    getFreeTrialSuccess(state, action) {
+      state.status = action.type;
+      state.loading = false;
+      state.getFreeTrialResponse = action?.payload;
+    },
+    getFreeTrialFailure(state, action) {
+      state.status = action.type;
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
 export const {
+
+
+  caseHearingPdfLinkRequest,
+  caseHearingPdfLinkSuccess,
+  caseHearingPdfLinkFailure,
 
 
   TentativeCauseListRequest,
@@ -1447,6 +1485,7 @@ export const {
   getProfileRequest,
   getProfileSuccess,
   getProfileFailure,
+
   updateProfileRequest,
   updateProfileSuccess,
   updateProfileFailure,
@@ -1522,5 +1561,12 @@ export const {
   caseStatusChangeRequest,
   caseStatusChangeSuccess,
   caseStatusChangeFailure,
+
+
+  getFreeTrialRequest,
+  getFreeTrialSuccess,
+  getFreeTrialFailure,
+
+
 } = postSlice.actions;
 export default postSlice.reducer;
