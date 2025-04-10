@@ -189,8 +189,8 @@ const CasesDetails = ({navigation}) => {
                       textTransform: 'capitalize',
                     }}
                     numberOfLines={1}>
-                    {PostReducer?.caseDetail?.client
-                      ? PostReducer?.caseDetail?.client
+                    {PostReducer?.caseDetail?.petitioner
+                      ? PostReducer?.caseDetail?.petitioner
                       : 'Anonymous'}
                   </Text>
                 </View>

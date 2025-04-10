@@ -55,7 +55,7 @@ const PersonalInformation = ({navigation}) => {
     <SafeAreaView style={{flex: 1}}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={'#fff'}
       />
       <Header isMenuPresent={false} navigation={navigation} text={'Back'} />
       <Loader visible={PostReducer.loading} />
@@ -227,7 +227,7 @@ const PersonalInformation = ({navigation}) => {
                 borderWidth: normalize(1),
                 borderColor: COLORS.themeColor,
               }}
-              placeHolderText="Enter Charges per sitting"
+              placeHolderText="Enter charges per consultancy"
               beforeIcon={''}
               keyboardType={'default'}
               // maxLength={10}

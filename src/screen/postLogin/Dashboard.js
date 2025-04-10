@@ -11,6 +11,7 @@ import {
   FlatList,
   Linking,
   Alert,
+  Platform,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import SplashImage from '../../assets/splash.png';
@@ -42,6 +43,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { navigate } from '../../utils/helpers/RootNavigation';
 import Modal from 'react-native-modal';
 import VersionCheck from "react-native-version-check";
+import { postApi } from '../../utils/helpers/ApiRequest';
 
 
 var status = '';
@@ -109,20 +111,36 @@ const Dashboard = ({ navigation }) => {
     },
     {
       image: IMAGE.calendar_dashboard,
-      text: 'Calenders',
+      text: 'Calendar',
       page: 'Calender',
     },
   ];
 
-  useEffect(() => {
-    const checkAppVersion = async () => {
-      try {
-        var latestVersion = 1.3;
+  useFocusEffect(
+    React.useCallback(() => {
+      
+  
+      GetVersion()
+    }, [])
+  );
 
+  const GetVersion = async () =>{
+    let header = {
+      Accept: 'application/json',
+      contenttype: 'application/json',
+    };
+    let obj = {
+      "device": Platform.OS == "android" ? '0' : '1'  
+    }
+    try {
+      const response = await postApi('version', obj, header)
+      if(response){
+        var latestVersion = Number( response?.data?.data?.version);
+      
         const currentVersion = VersionCheck.getCurrentVersion();
-        console.log("checkAppVersion true", currentVersion);
+        console.log("latestVersion", latestVersion);
         if (latestVersion != currentVersion) {
-          console.log("checkAppVersion true", currentVersion);
+        
           Alert.alert(
             "Update Required",
             "A new version of the app is available. Please update to continue using the app.",
@@ -144,14 +162,12 @@ const Dashboard = ({ navigation }) => {
           console.log("checkAppVersion else", currentVersion);
           // App is up-to-date; proceed with the app
         }
-      } catch (error) {
-        // Handle error while checking app version
-        console.error("Error checking app version:", error);
       }
-    };
+      console.log("verson dashboard", response?.data?.data?.version)
 
-    checkAppVersion();
-  }, []);
+
+    } catch(e){}
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fefefe' }}>
@@ -372,7 +388,7 @@ const Dashboard = ({ navigation }) => {
                         ₹{' '}
                         {parseFloat(
                           PostReducer?.getWallet?.total_balance,
-                        ).toFixed(2)}
+                        )}
                       </Text>
                     </View>
                   </View>
@@ -427,7 +443,7 @@ const Dashboard = ({ navigation }) => {
                             borderRadius: normalize(10),
                           }}></View>
                         <Text style={{ color: '#000', fontSize: normalize(9) }}>
-                          Total Withdrawl
+                          Total Withdrawal
                         </Text>
                       </View>
                       <Text
@@ -746,7 +762,7 @@ const Dashboard = ({ navigation }) => {
                     fontSize: normalize(12),
                     fontWeight: '500',
                   }}>
-                  {PostReducer?.assignedenquiryList?.length} My Assigned Enquery
+                  {PostReducer?.assignedenquiryList?.length} My Assigned Enquiry
                 </Text>
                
                 <TouchableOpacity
@@ -994,7 +1010,7 @@ const Dashboard = ({ navigation }) => {
                           onPress={() => {
                             if (PostReducer?.profileData?.is_subscribed) {
                               if(item?.is_assigned == 1){
-                                ToastMessage('This enquery is already assigned')
+                                ToastMessage('This enquiry is already assigned')
                               } else {
                                 navigate('Message', { item: item });
                               

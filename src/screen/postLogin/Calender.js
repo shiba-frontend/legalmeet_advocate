@@ -114,20 +114,20 @@ console.log("PostReducer?.TentativeCause", PostReducer)
   }, [selectedDay]);
 
 
-  useEffect(() => {
-    IsInternetConnected()
-      .then(() => {
-        dispatch(TentativeCauseListRequest({date: selectedDay}));
-      })
-      .catch(() => {
-        ToastMessage('Network connection issue');
-      });
+  // useEffect(() => {
+  //   IsInternetConnected()
+  //     .then(() => {
+  //       dispatch(TentativeCauseListRequest({date: selectedDay}));
+  //     })
+  //     .catch(() => {
+  //       ToastMessage('Network connection issue');
+  //     });
 
-      // const getExtension = (url) => {
-      //   return url.split('.').pop();
-      // };
+  //     // const getExtension = (url) => {
+  //     //   return url.split('.').pop();
+  //     // };
 
-  }, []);
+  // }, []);
 
 
   const downloadFile = () => {
@@ -235,7 +235,7 @@ console.log("PostReducer?.TentativeCause", PostReducer)
         backgroundColor: '#fff',
       }}>
       <MyStatusBar barStyle={'dark-content'} backgroundColor={COLORS.WHITE} />
-      <Header isMenuPresent={false} navigation={navigation} text={'Calender'} />
+      <Header isMenuPresent={false} navigation={navigation} text={'Calendar'} />
       <Loader visible={PostReducer.loading} />
       <ScrollView
         style={{paddingHorizontal: normalize(20), paddingTop: normalize(10)}}>

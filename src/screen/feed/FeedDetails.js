@@ -43,6 +43,9 @@ const FeedDetails = ({navigation, route}) => {
       <MyStatusBar barStyle={'dark-content'} backgroundColor={COLORS.WHITE} />
       <Header isMenuPresent={false} navigation={navigation} text={'Details'} />
       <Loader visible={PostReducer.loading} />
+      <ScrollView>
+
+    
       <View
         style={{
           width: Dimensions.get('screen').width,
@@ -72,6 +75,7 @@ const FeedDetails = ({navigation, route}) => {
           </Text>
         </View>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

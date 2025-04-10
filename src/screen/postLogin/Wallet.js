@@ -364,7 +364,7 @@ const Wallet = ({navigation}) => {
                     borderRadius: normalize(10),
                   }}></View>
                 <Text style={{color: '#000', fontSize: normalize(9)}}>
-                  Total Withdrawl
+                  Total Withdrawal
                 </Text>
               </View>
               <Text

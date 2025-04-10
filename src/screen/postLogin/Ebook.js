@@ -44,14 +44,14 @@ const Ebook = ({route, navigation}) => {
   const AuthReducer = useSelector(state => state.AuthReducer);
   const PostReducer = useSelector(state => state.PostReducer);
   const [Eenglish, setEenglish] = useState([])
-  const [Ehindhi, setEhindhi] = useState(PostReducer?.ebook?.HN)
+const [issearch, seisearch] = useState(false)
 
   const dispatch = useDispatch();
   useFocusEffect(
     React.useCallback(() => {
       IsInternetConnected()
         .then(() => {
-          dispatch(ebookRequest({category_id: route?.params?.item?.id}));
+          dispatch(ebookRequest({category_id: route?.params?.item?.id, document_name:''}));
         })
         .catch(() => {
           ToastMessage('Network connection issue');
@@ -115,20 +115,6 @@ const Ebook = ({route, navigation}) => {
   
   // },[esearch])
   
-  // const handleSearchstate = text => {
-  //   setsearch(text);
-  //   if (text) {
-     
-  //     const filtered = Eenglish.filter(item =>
-  //       item.document_name.toLowerCase().includes(text.toLowerCase()),
-  //     );
-
-  //     setEenglish(filtered);
-  //   } else {
-  //     setEenglish(PostReducer?.ebook?.EN);
-  //     setsearch(text);
-  //   }
-  // };
 
 
   return (
@@ -182,9 +168,9 @@ const Ebook = ({route, navigation}) => {
 
         {active == 'eng' &&
         <>
-        {/* <View
+        <View
         style={{
-          paddingHorizontal: normalize(10),
+         
           borderWidth: normalize(1),
           borderRadius: normalize(10),
           borderColor: COLORS.themeColor,
@@ -192,23 +178,78 @@ const Ebook = ({route, navigation}) => {
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        <Image
-          source={ICON.search}
-          style={{
-            height: normalize(15),
-            width: normalize(15),
-            tintColor: COLORS.themeColor,
-          }}
-          resizeMode="contain"
-        />
+       
         <TextInput
           placeholder="Search.."
-          style={{width: '90%'}}
+          style={{width: '90%', paddingHorizontal:normalize(15)}}
+          onChangeText={text => setsearch(text)}
           value={search}
-          onChangingText={item => handleSearchstate(item)}
-        
         />
-      </View> */}
+        {issearch ? 
+           <TouchableOpacity style={{
+            backgroundColor:COLORS.red,
+            paddingHorizontal: normalize(13),
+            paddingVertical:normalize(9),
+            position:'absolute',
+            right:normalize(2),
+            borderRadius:normalize(5)
+          }}
+          
+          onPress={()=>{
+            seisearch(false)
+            setsearch('')
+            dispatch(ebookRequest({category_id: route?.params?.item?.id, document_name:''}));
+
+            
+          }}
+          
+          >
+            <Image
+              source={ICON.close}
+              style={{
+                height: normalize(15),
+                width: normalize(15),
+                tintColor: '#fff',
+              }}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+          :
+          <TouchableOpacity style={{
+            backgroundColor:COLORS.themeColor,
+            paddingHorizontal: normalize(13),
+            paddingVertical:normalize(9),
+            position:'absolute',
+            right:normalize(2),
+            borderRadius:normalize(5)
+          }}
+          
+          onPress={()=>{
+  
+            if(search == ''){
+              ToastMessage('Pleae enter keyword')
+            } else {
+              seisearch(true)
+              dispatch(ebookRequest({category_id: route?.params?.item?.id, document_name:search}));
+            }
+            
+          }}
+          
+          >
+            <Image
+              source={ICON.search}
+              style={{
+                height: normalize(15),
+                width: normalize(15),
+                tintColor: '#fff',
+              }}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+      }
+   
+     
+      </View>
         <FlatList
           data={PostReducer?.ebook?.EN}
           style={{}}

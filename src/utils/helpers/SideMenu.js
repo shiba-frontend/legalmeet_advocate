@@ -213,18 +213,19 @@ const SideMenu = ({
                 err && console.log(err);
               });
           } else if (item?.name == 'Drafts') {
-            if (PostReducer?.profileData?.is_subscribed) {
-              navigate('DraftList');
-            } else {
-              navigation.navigate('expire');
-            }
+            // if (PostReducer?.profileData?.is_subscribed) {
+            //   navigate('DraftList');
+            // } else {
+            //   navigation.navigate('expire');
+            // }
+            navigate('DraftList');
           } else if (item?.name == 'Ebook') {
-            console.log(PostReducer);
-            if (PostReducer?.profileData?.is_subscribed) {
-              navigate('Ebook-category');
-            } else {
-              navigation.navigate('expire');
-            }
+            navigate('Ebook-category');
+            // if (PostReducer?.profileData?.is_subscribed) {
+            //   navigate('Ebook-category');
+            // } else {
+            //   navigation.navigate('expire');
+            // }
           } else {
             navigate(item?.page);
           }

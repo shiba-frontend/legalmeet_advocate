@@ -79,6 +79,7 @@ const AddCase1 = ({navigation, route}) => {
     {id: 0, type: 'Suprime Court'},
     {id: 1, type: 'High Court'},
     {id: 2, type: 'District Court'},
+    {id: 3, type: 'Others'},
   ];
   const [selectCourtType, setSelectCourtType] = useState({
     id: 2,
@@ -891,6 +892,44 @@ const AddCase1 = ({navigation, route}) => {
             </View>
           )}
 
+{selectCourtType?.id == 3 && (
+            <View style={{marginTop: normalize(3), width: '90%'}}>
+              <Text
+                style={{
+                  marginVertical: normalize(7),
+                  fontWeight: '600',
+                  fontSize: normalize(13),
+                }}>
+                Select Court
+              </Text>
+              <InputText
+                inputStyle={{
+                  backgroundColor: '#FFF',
+                  width: '100%',
+                  borderRadius: 10,
+                  paddingHorizontal: normalize(7),
+                  paddingVertical: normalize(3),
+                  borderColor: COLORS.themeColor,
+                  borderWidth: 1,
+                }}
+                placeHolderText="Select"
+                beforeIcon={''}
+                keyboardType={'default'}
+                selectBox={true}
+                afterIcon={ICON.select_box_icon}
+                // maxLength={10}
+                value={court?.name}
+                onChangingText={item => {
+                  // setName(item);
+                }}
+                OnOpenModal={item => {
+                  if (PostReducer?.courtLists?.length > 0) setSelectCourt(true);
+                  else ToastMessage('No court list is available');
+                }}
+              />
+            </View>
+          )}
+
           <View style={{marginTop: normalize(3), width: '90%'}}>
             <Text
               style={{
@@ -910,7 +949,7 @@ const AddCase1 = ({navigation, route}) => {
                 borderColor: COLORS.themeColor,
                 borderWidth: 1,
               }}
-              placeHolderText="Petitionor/Respondents"
+              placeHolderText="Petitioner/Respondent"
               beforeIcon={''}
               keyboardType={'default'}
               // maxLength={6}

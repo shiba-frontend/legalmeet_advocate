@@ -64,13 +64,13 @@ const Judgement = ({navigation}) => {
   //   }
   // }
   useEffect(() => {
-    // IsInternetConnected()
-    //   .then(() => {
-    //     dispatch(judgementRequest({search: ''}));
-    //   })
-    //   .catch(() => {
-    //     ToastMessage('Network connection issue');
-    //   });
+    IsInternetConnected()
+      .then(() => {
+        dispatch(judgementRequest({search: ''}));
+      })
+      .catch(() => {
+        ToastMessage('Network connection issue');
+      });
   }, []);
   return (
     <SafeAreaView
@@ -164,6 +164,7 @@ const Judgement = ({navigation}) => {
                       fontSize: normalize(12),
                       fontWeight: '400',
                       width: '90%',
+                     textAlign:'justify'
                     }}>
                     {item?.short_desc}
                   </Text>

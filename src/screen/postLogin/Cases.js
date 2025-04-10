@@ -241,7 +241,7 @@ const Cases = ({navigation}) => {
                   // dispatch(caseDetailRequest(item));
                   // navigation?.navigate('CasesDetails');
 
-                  if (PostReducer?.profileData?.is_subscribed) {
+                  // if (PostReducer?.profileData?.is_subscribed) {
                     IsInternetConnected()
                     .then(() => {
                       dispatch(
@@ -253,9 +253,9 @@ const Cases = ({navigation}) => {
                     .catch(() => {
                       ToastMessage('Network connection issue');
                     });
-                  } else {
-                    navigation.navigate('expire');
-                  }
+                  // } else {
+                  //   navigation.navigate('expire');
+                  // }
 
                 
                 }}>
@@ -333,7 +333,7 @@ const Cases = ({navigation}) => {
                   </View>
                 </View>
 
-                {!isEmpty(item?.client) ? (
+                {!isEmpty(item?.petitioner) ? (
                   <View
                     style={{
                       flexDirection: 'row',
@@ -359,7 +359,7 @@ const Cases = ({navigation}) => {
                         fontWeight: '600',
                         fontSize: 14,
                       }}>
-                      {item?.client}
+                      {item?.petitioner}
                     </Text>
                   </View>
                 ) : null}
@@ -870,12 +870,13 @@ const Cases = ({navigation}) => {
           borderRadius: normalize(20),
         }}
         onPress={() => {
+          navigation.navigate('AddCase1', {pageName: 'edit'});
           // dispatch(updatePageName({pagename: 'AddPage'}));
-          if (PostReducer?.profileData?.is_subscribed) {
-            navigation.navigate('AddCase1', {pageName: 'edit'});
-          } else {
-            navigation.navigate('expire');
-          }
+          // if (PostReducer?.profileData?.is_subscribed) {
+          //   navigation.navigate('AddCase1', {pageName: 'edit'});
+          // } else {
+          //   navigation.navigate('expire');
+          // }
           
         }}>
         <Image

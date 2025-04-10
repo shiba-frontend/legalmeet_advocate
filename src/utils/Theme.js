@@ -203,7 +203,7 @@ export const ICON = {
   import: require('../assets/icon/import.png'),
   success_icon: require('../assets/icon/success_icon.png'),
   faild_icon: require('../assets/icon/faild_icon.png'),
-
+  close: require('../assets/icon/close.png'),
 
 
 

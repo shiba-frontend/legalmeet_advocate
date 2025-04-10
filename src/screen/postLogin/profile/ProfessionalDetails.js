@@ -65,7 +65,7 @@ const ProfessionalDetails = ({navigation}) => {
     <SafeAreaView style={{flex: 1}}>
       <MyStatusBar
         barStyle={'dark-content'}
-        backgroundColor={COLORS.STATUS_BAR}
+        backgroundColor={'#fff'}
       />
       <Header isMenuPresent={false} navigation={navigation} text={'Back'} />
       <Loader visible={PostReducer.loading} />

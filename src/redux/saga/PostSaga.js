@@ -2129,7 +2129,7 @@ export function* draftListRequestSaga(action) {
     console.log(response?.data);
     if (response?.data?.response_code == 200) {
       yield put(draftListSuccess(response.data));
-      ToastMessage(response?.data?.message);
+      //ToastMessage(response?.data?.message);
     } else {
       yield put(draftListFailure(response?.data));
       ToastMessage(response?.data?.message);

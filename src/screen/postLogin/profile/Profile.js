@@ -457,7 +457,7 @@ const Profile = ({navigation}) => {
                             color: '#000',
                             fontWeight: '600',
                           }}>
-                          Charges Per Seeting
+                          Charges per consultancy/conference
                         </Text>
                         <Text
                           style={{

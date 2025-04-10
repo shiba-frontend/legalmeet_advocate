@@ -64,6 +64,7 @@ const CMSPage = ({navigation, route}) => {
         <View
           style={{
             paddingTop: normalize(10),
+            paddingBottom:normalize(50)
           }}>
           <Text
             style={{
