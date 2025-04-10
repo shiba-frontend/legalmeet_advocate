@@ -95,7 +95,7 @@ const Feed = ({navigation}) => {
                     {item.title}
                   </Text>
                   <Text style={{color: '#666', fontSize: normalize(12)}}>
-                    {item.description}
+                    {item.description.substring(0, 100)} ...
                   </Text>
                 </View>
               </TouchableOpacity>

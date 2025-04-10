@@ -44,12 +44,13 @@ export function* loginRequestSaga(action) {
       Accept: 'application/json',
       contenttype: 'application/json',
     };
-    console.log(action.payload);
+
     let response = yield call(postApi, 'otp-verify', action.payload, header);
-    console.log(response?.data);
+
     if (response?.status == 200 && response?.data?.status) {
       yield put(loginSuccess(response.data));
-      console.log('Token: ', response?.data?.data['token']);
+      ToastMessage(response?.data?.message);
+ 
       yield call(AsyncStorage.setItem, TOKEN, response?.data?.data['token']);
       yield put(
         updateAuthToken({
@@ -57,11 +58,14 @@ export function* loginRequestSaga(action) {
         }),
       );
     } else {
+     
+     
       yield put(loginFailure(response?.data));
       // ToastMessage(response?.data?.message);
     }
   } catch (e) {
-    console.log('From error: ', e);
+   
+    // ToastMessage("Something went wrong");
     yield put(loginFailure(e));
     // ToastMessage(e?.response?.data?.message);
     // yield call(AsyncStorage.setItem, TOKEN, 'TOKEN');
@@ -72,6 +76,42 @@ export function* loginRequestSaga(action) {
     // );
   }
 }
+
+
+// export function* loginRequestSaga(action) {
+//   try {
+//     let header = {
+//       Accept: 'application/json',
+//       contenttype: 'application/json',
+//     };
+//     console.log(action.payload);
+//     let response = yield call(postApi, 'otp-verify', action.payload, header);
+//     console.log(response?.data);
+//     if (response?.status == 200 && response?.data?.status) {
+//       yield put(loginSuccess(response.data));
+//       console.log('Token: ', response?.data?.data['token']);
+//       yield call(AsyncStorage.setItem, TOKEN, response?.data?.data['token']);
+//       yield put(
+//         updateAuthToken({
+//           authToken: response?.data?.data['token'],
+//         }),
+//       );
+//     } else {
+//       yield put(loginFailure(response?.data));
+//        ToastMessage(response?.data?.message);
+//     }
+//   } catch (e) {
+//     console.log('From error: ', e);
+//     yield put(loginFailure(e));
+//     // ToastMessage(e?.response?.data?.message);
+//     // yield call(AsyncStorage.setItem, TOKEN, 'TOKEN');
+//     // yield put(
+//     //   updateAuthToken({
+//     //     authToken: 'TOKEN',
+//     //   }),
+//     // );
+//   }
+// }
 /** CMS data */
 export function* cmsDataRequestSaga(action) {
   try {

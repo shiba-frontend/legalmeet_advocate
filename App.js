@@ -82,6 +82,7 @@ function App() {
       // imageUrl: data?.notification?.android?.imageUrl,
       android: {
         channelId,
+         style: { type: AndroidStyle.BIGPICTURE, picture: data?.notification?.android?.imageUrl },
       },
 
 

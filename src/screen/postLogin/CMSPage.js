@@ -22,6 +22,7 @@ import {
 import IsInternetConnected from '../../utils/helpers/IsInternetConnected';
 import {ToastMessage} from '../../utils/helpers/Toast';
 import {cmsDataRequest} from '../../redux/reducer/AuthReducer';
+import { useFocusEffect } from '@react-navigation/native';
 
 const CMSPage = ({navigation, route}) => {
   const AuthReducer = useSelector(state => state.AuthReducer);
@@ -32,34 +33,34 @@ const CMSPage = ({navigation, route}) => {
     if (item == '' || item == null || item == undefined) return true;
     return false;
   }
-  useEffect(() => {
-    console.log(AuthReducer?.cmsData);
 
-    // if (!isEmpty(AuthReducer?.cmsData)) {
-    //   console.log(
-    //     AuthReducer?.cmsData?.find(item => {
-    //       if (item?.title == route?.params?.page) return item;
-    //     }),
-    //   );
-    //   setData(
-    //     AuthReducer?.cmsData?.find(item => {
-    //       if (item?.title == route?.params?.page) return item;
-    //     }),
-    //   );
-    // }
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      IsInternetConnected()
+        .then(() => {
+
+          dispatch(cmsDataRequest({ alias: route?.params.alias }));
+
+         
+        })
+        .catch(() => {
+          ToastMessage('Network connection issue');
+        });
+    }, []),
+  );
   return (
-    <ScrollView contentContainerStyle={{flex: 1}}>
+   
       <View>
         <MyStatusBar
           barStyle={'dark-content'}
-          backgroundColor={COLORS.STATUS_BAR}
+          backgroundColor={'#fff'}
         />
         <Header
           isMenuPresent={false}
           navigation={navigation}
           text={route?.params?.page}
         />
+         <ScrollView>
         <View
           style={{
             paddingTop: normalize(10),
@@ -69,7 +70,7 @@ const CMSPage = ({navigation, route}) => {
               //marginTop: normalize(5),
               color: '#222',
               fontWeight: '400',
-              fontSize: normalize(14),
+              fontSize: normalize(12),
               paddingLeft: normalize(10),
               marginBottom: normalize(10),
               marginTop: normalize(12),
@@ -78,8 +79,9 @@ const CMSPage = ({navigation, route}) => {
             {AuthReducer?.cmsData?.description}
           </Text>
         </View>
+        </ScrollView>
       </View>
-    </ScrollView>
+   
   );
 };
 

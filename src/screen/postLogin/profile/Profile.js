@@ -626,6 +626,15 @@ const Profile = ({navigation}) => {
               );
             }}
           />
+          <View style={{marginVertical:normalize(10)}}>
+            <Text style={{fontWeight:'600', fontSize:normalize(13), marginBottom:normalize(7)}}>Subscription Details</Text>
+            <Text>Plan: {PostReducer?.profileData?.subscription_details?.title
+            }</Text>
+            <Text>Duration: {PostReducer?.profileData?.subscription_details?.duration
+            } days</Text>
+            <Text>Expire in: <Text style={{color:'red'}}>{PostReducer?.profileData?.subscription_details?.end_date
+            }</Text></Text>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

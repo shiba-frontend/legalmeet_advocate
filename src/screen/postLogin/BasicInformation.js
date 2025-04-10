@@ -33,7 +33,7 @@ var status = '';
 const BasicInformation = ({navigation}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [type, setType] = useState('Individual');
+  const [Usertype, setUsertype] = useState('Advocate');
   const [enrollmentId, setEnrollmentId] = useState('');
   const [pincode, sesetPinCode] = useState('');
   const [state, setState] = useState('');
@@ -282,7 +282,55 @@ const BasicInformation = ({navigation}) => {
               Please fill your basic information
             </Text>
           </View>
+          <View style={{marginTop: normalize(0), width: '90%', flexDirection:'row', gap:normalize(10), marginBottom:normalize(10)}}>
+            <TouchableOpacity onPress={()=>setUsertype('Advocate')} style={{flexDirection:'row', alignItems:'center',gap:normalize(7)}}>
+               {Usertype == 'Advocate' ? 
+                  <Image
+                          source={ICON?.radioEnable}
+                          style={{height: normalize(17), width: normalize(17)}}
+                          resizeMode="contain"
+                          tintColor={COLORS.themeColor}
+                        />
+                        :
+                        <Image
+                        source={ICON?.radioDisable}
+                        style={{height: normalize(17), width: normalize(17)}}
+                        resizeMode="contain"
+                        tintColor={COLORS.themeColor}
+                      />
+               }
 
+                      <Text style={{
+                fontWeight: '600',
+                fontSize: normalize(13),
+              }}>Advocate</Text>
+               
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>setUsertype('Others')} style={{flexDirection:'row', alignItems:'center',gap:normalize(7)}}>
+               {Usertype == 'Others' ? 
+                  <Image
+                          source={ICON?.radioEnable}
+                          style={{height: normalize(17), width: normalize(17)}}
+                          resizeMode="contain"
+                          tintColor={COLORS.themeColor}
+                        />
+                        :
+                        <Image
+                        source={ICON?.radioDisable}
+                        style={{height: normalize(17), width: normalize(17)}}
+                        resizeMode="contain"
+                        tintColor={COLORS.themeColor}
+                      />
+               }
+
+                      <Text style={{
+                fontWeight: '600',
+                fontSize: normalize(13),
+              }}>Others</Text>
+               
+            </TouchableOpacity>
+           
+          </View>
           <View style={{marginTop: normalize(0), width: '90%'}}>
             <Text
               style={{
@@ -290,7 +338,7 @@ const BasicInformation = ({navigation}) => {
                 fontWeight: '600',
                 fontSize: normalize(13),
               }}>
-              {type == 'Individual' ? 'Your Name' : 'Corporate Name'}
+             Your Name
             </Text>
             <InputText
               inputStyle={{
@@ -337,6 +385,7 @@ const BasicInformation = ({navigation}) => {
               }}
             />
           </View>
+          {Usertype == 'Advocate' &&
           <View style={{marginTop: normalize(3), width: '90%'}}>
             <Text
               style={{
@@ -376,6 +425,7 @@ const BasicInformation = ({navigation}) => {
               }}
             />
           </View>
+}
           <FlatList
             data={selectSpecialzation}
             style={{marginTop: normalize(10)}}
@@ -414,167 +464,8 @@ const BasicInformation = ({navigation}) => {
               );
             }}
           />
-          {/* <View
-            style={{
-              marginTop: normalize(3),
-              width: '90%',
-              alignSelf: 'center',
-            }}>
-            <View
-              style={{
-                marginVertical: normalize(10),
-                // paddingHorizontal: normalize(15),
-                width: '100%',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                style={{
-                  color: '#000',
-                  fontSize: normalize(15),
-                  fontWeight: '600',
-                }}>
-                
-              </Text>
-              <Text
-                style={{
-                  color: COLORS.PINK,
-                  fontSize: normalize(15),
-                  fontWeight: '600',
-                }}
-                onPress={() => {
-                  setSearchModal(true);
-                }}>
-                Search Address
-              </Text>
-            </View>
 
-            <View style={{marginTop: normalize(0), width: '100%'}}>
-              <Text
-                style={{
-                  marginVertical: normalize(3),
-                  fontWeight: '600',
-                  fontSize: normalize(13),
-                }}>
-                Pin Code
-              </Text>
-              <InputText
-                inputStyle={{
-                  backgroundColor: '#FFF',
-                  width: '100%',
-                  borderRadius: 10,
-                  paddingLeft: 10,
-                  borderWidth: normalize(1),
-                  borderColor: COLORS.themeColor,
-                }}
-                placeHolderText="Enter Pin Code"
-                beforeIcon={''}
-                keyboardType={'phone-pad'}
-                maxLength={6}
-                value={pincode}
-                onChangingText={item => {
-                  sesetPinCode(item);
-                }}
-              />
-            </View>
-            <View style={{marginTop: normalize(7), width: '100%'}}>
-              <Text
-                style={{
-                  marginVertical: normalize(3),
-                  fontWeight: '600',
-                  fontSize: normalize(13),
-                }}>
-                State
-              </Text>
-              <InputText
-                inputStyle={{
-                  backgroundColor: '#FFF',
-                  width: '100%',
-                  borderRadius: 10,
-                  paddingLeft: 10,
-                  borderWidth: normalize(1),
-                  borderColor: COLORS.themeColor,
-                }}
-                placeHolderText="Enter State"
-                beforeIcon={''}
-                keyboardType={'default'}
-                // maxLength={10}
-                value={state}
-                onChangingText={item => {
-                  setState(item);
-                }}
-              />
-            </View>
-            <View style={{marginTop: normalize(7), width: '100%'}}>
-              <Text
-                style={{
-                  marginVertical: normalize(3),
-                  fontWeight: '600',
-                  fontSize: normalize(13),
-                }}>
-                District
-              </Text>
-              <InputText
-                inputStyle={{
-                  backgroundColor: '#FFF',
-                  width: '100%',
-                  borderRadius: 10,
-                  paddingLeft: 10,
-                  borderWidth: normalize(1),
-                  borderColor: COLORS.themeColor,
-                }}
-                placeHolderText="Enter District"
-                beforeIcon={''}
-                keyboardType={'default'}
-                // maxLength={10}
-                value={district}
-                onChangingText={item => {
-                  setDistrict(item);
-                }}
-              />
-            </View>
-            <View style={{marginTop: normalize(7), width: '100%'}}>
-              <Text
-                style={{
-                  marginVertical: normalize(3),
-                  fontWeight: '600',
-                  fontSize: normalize(13),
-                }}>
-                Full Address
-              </Text>
-              <InputText
-                inputStyle={{
-                  backgroundColor: '#FFF',
-                  width: '100%',
-                  borderRadius: 10,
-                  paddingLeft: 10,
-                  borderWidth: normalize(1),
-                  borderColor: COLORS.themeColor,
-                }}
-                numberOfLine={3}
-                placeHolderText="Enter Address"
-                beforeIcon={''}
-                keyboardType={'default'}
-                // maxLength={10}
-
-                value={address}
-                onChangingText={item => {
-                  setAddress(item);
-                }}
-              />
-            </View>
-          </View> */}
-          {/* <Text
-            style={{
-              marginLeft: normalize(40),
-              textAlign: 'left',
-              width: '100%',
-              fontWeight: '800',
-              fontSize: normalize(14),
-            }}>
-            Corporate/Indicidual
-          </Text> */}
-
+{Usertype == 'Advocate' &&
           <View style={{marginTop: normalize(0), width: '90%'}}>
             <Text
               style={{
@@ -602,6 +493,7 @@ const BasicInformation = ({navigation}) => {
               onOpenModal={item => {}}
             />
           </View>
+}
           <View style={{marginTop: normalize(20), width: '90%'}}>
             <TouchableOpacity
               style={{
@@ -612,15 +504,9 @@ const BasicInformation = ({navigation}) => {
               }}
               onPress={() => {
                 var emailreg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-                if (email == '') {
-                  ToastMessage('Email required');
-                } else if (name == '') {
+                if (name == '') {
                   ToastMessage('Name required');
-                } else if (type == '') {
-                  ToastMessage('Client type required');
-                } else if (selectSpecialzation?.length == 0) {
-                  ToastMessage('Specialization required');
-                } else {
+                }  else {
                   //
                   var array = [];
                   selectSpecialzation.forEach(element => {
@@ -633,6 +519,7 @@ const BasicInformation = ({navigation}) => {
                           name: name,
                           email: email,
                           enrolment_id: enrollmentId,
+                          type:Usertype == 'Advocate' ? 1 : 2,
                           // district: district,
                           // state: state,
                           // address: address,

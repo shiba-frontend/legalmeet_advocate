@@ -168,10 +168,17 @@ const EnqueryList = ({navigation}) => {
                 }}
                 onPress={() => {
                   if (PostReducer?.profileData?.is_subscribed) {
-                    navigate('Message', {item: item});
-                  } else {
+                    if(item?.is_assigned == 1){
+                      ToastMessage('This enquery is already assigned')
+                    } else {
+                      navigate('Message', { item: item });
+                    
+                    }
+                  
+                  } else  {
                     navigation.navigate('expire');
-                  }
+                  
+                  } 
              
                 }}>
                 <View

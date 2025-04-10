@@ -439,7 +439,7 @@ const CasesDetails = ({navigation}) => {
                                 <TouchableOpacity
                                   style={{marginLeft: normalize(5)}}
                                   onPress={() => {
-                                    Linking?.openURL(item?.document);
+                                    Linking?.openURL(item?.file);
                                   }}>
                                   <Image
                                     source={ICON?.import}

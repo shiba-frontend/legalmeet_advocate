@@ -66,7 +66,8 @@ const postSlice = createSlice({
     getCause:[],
    TentativeCause:'',
    caseHearingPdfLinkResponse:[],
-   getFreeTrialResponse:null
+   getFreeTrialResponse:null,
+   assignedenquiryList:[]
   },
   reducers: {
     getProfileRequest(state, action) {
@@ -1254,11 +1255,32 @@ const postSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+
+    assignedenquiryListRequest(state, action) {
+      state.status = action.type;
+      state.loading = true;
+    },
+    assignedenquiryListSuccess(state, action) {
+      state.status = action.type;
+      state.loading = false;
+      state.assignedenquiryList = action?.payload;
+    },
+    assignedenquiryListFailure(state, action) {
+      state.status = action.type;
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+
+
   },
 });
 
 export const {
 
+  assignedenquiryListRequest,
+  assignedenquiryListSuccess,
+  assignedenquiryListFailure,
 
   caseHearingPdfLinkRequest,
   caseHearingPdfLinkSuccess,

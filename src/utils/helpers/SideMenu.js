@@ -90,16 +90,19 @@ const SideMenu = ({
     {
       page: 'CMSPage',
       name: 'About Us',
+      alias: 'about-us',
       icon: ICON?.settings,
     },
     {
       page: 'CMSPage',
       name: 'Term & Conditions',
+      alias: 'terms-and-condition',
       icon: ICON?.settings,
     },
     {
       page: 'CMSPage',
       name: 'Privacy Policy',
+      alias: 'privacy-policy',
       icon: IMAGE?.privacy_icon,
     },
     {
@@ -157,7 +160,7 @@ const SideMenu = ({
           props.onOff(false);
           if (item?.page == 'CMSPage') {
             navigate('CMSPage', {
-              slug: item?.name,
+              alias: item?.alias,
               page: item?.name,
             });
           } else if (item?.name == 'Delete Account') {
@@ -193,7 +196,16 @@ const SideMenu = ({
               },
             ]);
           } else if (item?.name == 'Share') {
-            Share.open(options)
+            Share.open(
+              
+                {
+                  title: 'Legalmeet',
+                  message: 'Google play store link',
+                   url: 'https://play.google.com/store/apps/details?id=com.legalexpert',
+                }
+              
+              
+              )
               .then(res => {
                 console.log(res);
               })

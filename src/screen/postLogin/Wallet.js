@@ -194,7 +194,7 @@ const Wallet = ({navigation}) => {
               <View style={{marginLeft: normalize(10)}}>
                 <Text>
                   ₹{' '}
-                  {parseFloat(PostReducer?.getWallet?.wallet_balance).toFixed(
+                  {parseFloat(PostReducer?.getWallet?.total_balance).toFixed(
                     2,
                   )}
                 </Text>
@@ -243,7 +243,7 @@ const Wallet = ({navigation}) => {
                 ToastMessage('Withdraw amount required');
               } else if (
                 Number(withdraw) >
-                Number(PostReducer?.getWallet?.wallet_balance)
+                Number(PostReducer?.getWallet?.total_balance)
               ) {
                 ToastMessage('Limit exceed');
               } else {
@@ -312,7 +312,7 @@ const Wallet = ({navigation}) => {
                   fontWeight: '600',
                 }}>
                 ₹{' '}
-                {parseFloat(PostReducer?.getWallet?.wallet_balance).toFixed(2)}
+                {parseFloat(PostReducer?.getWallet?.total_balance).toFixed(2)}
               </Text>
             </View>
           </View>
@@ -697,7 +697,14 @@ const Wallet = ({navigation}) => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                               }}>
-                              <Text
+                                {
+                                  item?.type == 3 ?
+                                  <Text
+                                  style={{
+                                    fontSize: normalize(8),
+                                  }}> LM </Text> 
+                                    :
+                                    <Text
                                 style={{
                                   fontSize: normalize(8),
                                 }}>
@@ -708,21 +715,26 @@ const Wallet = ({navigation}) => {
                                   ?.split(' ')[1]
                                   ?.substring(0, 1)}
                               </Text>
+
+                                }
+                         
                             </View>
                             <View style={{marginLeft: normalize(10)}}>
-                              <Text>{item?.client?.name}</Text>
-                              <Text>{item?.client?.mobile_number}</Text>
+                              <Text>{item?.type == 3 ? 'Legalmeet' : item?.client?.name}</Text>
+                              {/* <Text>{item?.client?.mobile_number}</Text> */}
                             </View>
                           </View>
-                          <View>
+                          <View style={{
+                              width: '30%',
+                            }}>
                             <Text
-                              numberOfLines={1}
                               style={{
                                 color: COLORS?.themeColor,
                                 fontWeight: '600',
                                 fontSize: normalize(12),
+                                
                               }}>
-                              {item?.type == 1 ? 'Consult Book' : null}
+                              {item?.type == 1 ? 'Consult Book' :  item?.type == 2 ? 'Service Book by your client' : 'Enquery Payment'}
                             </Text>
                             <Text
                               numberOfLines={1}

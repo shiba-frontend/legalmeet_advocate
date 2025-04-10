@@ -28,40 +28,53 @@ import Header from '../../utils/helpers/Header';
 import moment from 'moment';
 import * as Progress from 'react-native-progress';
 import {
-  clientDeleteRequest,
-  clientListRequest,
-  draftLanguageRequest,
-  draftListRequest,
-  draftRequest,
+
   ebookRequest,
   updatePageName,
 } from '../../redux/reducer/PostReducer';
 import call from 'react-native-phone-call';
 import {useCallback} from 'react';
 import {debounce} from 'lodash';
+import { useFocusEffect } from '@react-navigation/native';
 var status = '';
 const Ebook = ({route, navigation}) => {
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [search, setsearch] = useState("")
   const [active, setactive] = useState('eng');
-
-  const PostReducer = useSelector(state => state.PostReducer);
   const AuthReducer = useSelector(state => state.AuthReducer);
+  const PostReducer = useSelector(state => state.PostReducer);
+  const [Eenglish, setEenglish] = useState([])
+  const [Ehindhi, setEhindhi] = useState(PostReducer?.ebook?.HN)
+
   const dispatch = useDispatch();
+  useFocusEffect(
+    React.useCallback(() => {
+      IsInternetConnected()
+        .then(() => {
+          dispatch(ebookRequest({category_id: route?.params?.item?.id}));
+        })
+        .catch(() => {
+          ToastMessage('Network connection issue');
+        });
+    }, []),
+  );
+
+
+  console.log('ebook list', Eenglish)
+
+  function isEmpty(item) {
+    if (item == '' || item == null || item == undefined) return true;
+    return false;
+  }
 
   if (status == '' || status != PostReducer?.status) {
     switch (PostReducer?.status) {
-      case 'post/clientDeleteRequest':
+      case 'post/ebookRequest':
         status = PostReducer?.status;
         break;
-      case 'post/clientDeleteSuccess':
+      case 'post/ebookSuccess':
         status = PostReducer?.status;
-        IsInternetConnected()
-          .then(() => {
-            dispatch(ebookRequest());
-          })
-          .catch(() => {
-            ToastMessage('Network connection issue');
-          });
+       
         break;
     }
   }
@@ -81,24 +94,41 @@ const Ebook = ({route, navigation}) => {
     }
   ]
 
-  useEffect(() => {
+  const ToggleHandle = (id) =>{
+    setactive(id)
+  }
 
+  
+  // useEffect(() => {
+  //   setEenglish(PostReducer?.ebook?.EN);
+  // }, [PostReducer?.ebook?.EN]);
+  
+  // useEffect(()=>{
+  //   if(esearch !== ''){
+  //     const result = Eenglish && Eenglish.filter(data =>{
+  //       return data?.document_name.toLowerCase().match(esearch.toLowerCase())
+  //     })
+     
+  //     setEenglish(result)
+  //   } else setEenglish(PostReducer?.ebook
+  //     ?.EN)
+  
+  // },[esearch])
+  
+  // const handleSearchstate = text => {
+  //   setsearch(text);
+  //   if (text) {
+     
+  //     const filtered = Eenglish.filter(item =>
+  //       item.document_name.toLowerCase().includes(text.toLowerCase()),
+  //     );
 
-    IsInternetConnected()
-      .then(() => {
-       // dispatch(draftLanguageRequest({category_id: route?.params?.item?.id}));
-        dispatch(ebookRequest({category_id: route?.params?.item?.id}));
-      })
-      .catch(() => {
-        ToastMessage('Network connection issue');
-      });
-  }, []);
-
-const ToggleHandle = (id) =>{
-  setactive(id)
-}
-
-
+  //     setEenglish(filtered);
+  //   } else {
+  //     setEenglish(PostReducer?.ebook?.EN);
+  //     setsearch(text);
+  //   }
+  // };
 
 
   return (
@@ -149,10 +179,38 @@ const ToggleHandle = (id) =>{
             }}
           />
         </View>
+
         {active == 'eng' &&
+        <>
+        {/* <View
+        style={{
+          paddingHorizontal: normalize(10),
+          borderWidth: normalize(1),
+          borderRadius: normalize(10),
+          borderColor: COLORS.themeColor,
+          marginBottom: normalize(10),
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        <Image
+          source={ICON.search}
+          style={{
+            height: normalize(15),
+            width: normalize(15),
+            tintColor: COLORS.themeColor,
+          }}
+          resizeMode="contain"
+        />
+        <TextInput
+          placeholder="Search.."
+          style={{width: '90%'}}
+          value={search}
+          onChangingText={item => handleSearchstate(item)}
+        
+        />
+      </View> */}
         <FlatList
-          data={PostReducer?.ebook
-            ?.EN}
+          data={PostReducer?.ebook?.EN}
           style={{}}
           showsVerticalScrollIndicator={false}
           renderItem={({item, index}) => {
@@ -177,7 +235,7 @@ const ToggleHandle = (id) =>{
                   <Text
                     style={{
                       color: '#000',
-                      fontSize: normalize(14),
+                      fontSize: normalize(12),
                       fontWeight: '800',
                     }}> 
                     {item?.document_name}
@@ -220,6 +278,7 @@ const ToggleHandle = (id) =>{
             );
           }}
         />
+        </>
       }
        {active == 'hind' &&
         <FlatList

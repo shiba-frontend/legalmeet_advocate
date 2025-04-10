@@ -78,6 +78,7 @@ import SubscriptionAlert from '../screen/others/SubscriptionAlert';
 import CaseHearingNoteAdd from '../screen/postLogin/CaseHearingNoteAdd';
 import CauseList from '../screen/postLogin/CauseList';
 import AllTodayCase from '../screen/postLogin/AllTodayCase';
+import AssignedEnqueryList from '../screen/postLogin/AssignedEnqueryList';
 const Stack = createStackNavigator();
 
 const Navigation = () => {
@@ -180,6 +181,7 @@ const Navigation = () => {
               <Stack.Screen name="EnqueryList" component={EnqueryList} />
               <Stack.Screen name="RequestList" component={RequestList} />
               <Stack.Screen name="AddRequest" component={AddRequest} />
+              <Stack.Screen name="asignedenquery" component={AssignedEnqueryList} />
               <Stack.Screen
                 name="DraftListWithLanguage"
                 component={DraftListWithLanguage}

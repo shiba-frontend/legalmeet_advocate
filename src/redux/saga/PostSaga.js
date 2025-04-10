@@ -169,7 +169,16 @@ import PostReducer, {
   caseHearingPdfLinkSuccess,
   caseHearingPdfLinkFailure,
   getFreeTrialSuccess,
-  getFreeTrialFailure
+  getFreeTrialFailure,
+
+  assignedenquiryListSuccess,
+  assignedenquiryListFailure
+
+
+
+
+
+
 } from '../reducer/PostReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {updateAuthToken} from '../reducer/AuthReducer';
@@ -1946,8 +1955,6 @@ export function* ebookRequestSaga(action) {
     const AuthReducer = state => state.AuthReducer;
     const PostReducer = state => state.AuthReducer;
     const data = yield select(AuthReducer);
-    console.log(data);
-    console.log('Auth token value: ', data?.authToken);
     let header = {
       Accept: 'application/json',
       contenttype: 'application/json',
@@ -1961,7 +1968,7 @@ export function* ebookRequestSaga(action) {
       // ToastMessage(response?.data?.message);
     } else {
       yield put(ebookFailure(response?.data));
-      ToastMessage(response?.data?.message);
+      //ToastMessage(response?.data?.message);
     }
   } catch (e) {
     // yield put(updateAppStateFailure(action.payload));
@@ -2505,10 +2512,10 @@ export function* ebookCategoryRequestSaga(action) {
     console.log(response?.data);
     if (response?.data?.response_code == 200) {
       yield put(ebookCategorySuccess(response.data));
-      ToastMessage(response?.data?.message);
+     // ToastMessage(response?.data?.message);
     } else {
       yield put(ebookCategoryFailure(response?.data));
-      ToastMessage(response?.data?.message);
+      //ToastMessage(response?.data?.message);
     }
   } catch (e) {
     // yield put(updateAppStateFailure(action.payload));
@@ -2780,9 +2787,43 @@ export function* getFreeTrialRequestSaga(action) {
   }
 }
 
+/**assigned enquiryListRequestSaga */
+export function* assignedenquiryListRequestSaga(action) {
+  try {
+    const AuthReducer = state => state.AuthReducer;
+
+    const data = yield select(AuthReducer);
+    console.log(data);
+    console.log('Auth token value: ', data?.authToken);
+    let header = {
+      Accept: 'application/json',
+      contenttype: 'application/json',
+      Authorization: data?.authToken,
+    };
+    let response = yield call(getApi,'get-enquiry-listbyadvocate', header);
+    console.log(response?.data);
+    if (response?.data?.response_code == 200) {
+      yield put(assignedenquiryListSuccess(response?.data?.data));
+
+      // ToastMessage(response?.data?.message);
+    } else {
+      yield put(assignedenquiryListFailure(response?.data));
+      // ToastMessage(response?.data?.message);
+    }
+  } catch (e) {
+    // yield put(updateAppStateFailure(action.payload));
+    yield put(assignedenquiryListFailure(e));
+    // ToastMessage(e?.response?.data?.message);
+  }
+}
+
 
 
 const watchFunction = [
+
+  (function* () {
+    yield takeLatest('post/assignedenquiryListRequest', assignedenquiryListRequestSaga);
+  })(),
 
   (function* () {
     yield takeLatest('post/TentativeCauseListRequest', TentativeCauseListRequestSaga);

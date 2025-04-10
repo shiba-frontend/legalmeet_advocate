@@ -48,6 +48,7 @@
     "react-native-simple-toast": "^3.0.1",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "^15.0.0",
+    "react-native-version-check": "^3.4.7",
     "react-native-webview": "^13.6.2",
     "react-redux": "^8.1.2",
     "redux-logger": "^3.0.6",

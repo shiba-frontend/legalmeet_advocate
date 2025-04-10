@@ -67,6 +67,19 @@ const DisplayBoard = ({navigation}) => {
     }
   }
 
+  const RefreshHandle = () => {
+    // if(selectResult == ''){
+    //   dispatch(courtListRequest());
+    // } else {
+    //   setSelectResult(selectResult?.link);
+    // }
+    dispatch(courtListRequest());
+  }
+
+  console.log("Refresh", selectResult)
+
+
+
   return (
     <SafeAreaView
     style={{
@@ -131,6 +144,7 @@ const DisplayBoard = ({navigation}) => {
         />
       </View>
     </Modal>
+   
     <TouchableOpacity
       style={{
         width: '93%',
@@ -152,8 +166,15 @@ const DisplayBoard = ({navigation}) => {
         />
       </View>
     </TouchableOpacity>
+<View style={{justifyContent:'flex-end', alignItems:'flex-end', marginRight:normalize(15), marginVertical:normalize(10)}}>
+<TouchableOpacity onpress={() => { WebViewRef && WebViewRef.reload(); }} style={{borderWidth:1, borderColor:'#ccc',paddingHorizontal:normalize(10),paddingVertical:normalize(3),borderRadius:normalize(5)}}>
+      <Text>Refresh</Text>
+    </TouchableOpacity>
+</View>
+ 
+    
     {selectResult?.link ? (
-      <WebView source={{uri: selectResult?.link}} style={{flex: 1}} />
+      <WebView source={{uri: selectResult?.link}} style={{flex: 1}}  ref={WEBVIEW_REF => (WebViewRef = WEBVIEW_REF)} />
     ) : null}
   </SafeAreaView>
   )

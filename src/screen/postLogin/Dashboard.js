@@ -10,6 +10,7 @@ import {
   ScrollView,
   FlatList,
   Linking,
+  Alert,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import SplashImage from '../../assets/splash.png';
@@ -20,7 +21,6 @@ import InputText from '../../components/InputText';
 import { ToastMessage } from '../../utils/helpers/Toast';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  cmsDataRequest,
   verifyUserIdRequest,
 } from '../../redux/reducer/AuthReducer';
 import Loader from '../../utils/helpers/Loader';
@@ -31,6 +31,7 @@ import * as Progress from 'react-native-progress';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import {
   allHearingRequest,
+  assignedenquiryListRequest,
   caseDetailRequest,
   enquiryListRequest,
   getFreeTrialRequest,
@@ -40,6 +41,9 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import { navigate } from '../../utils/helpers/RootNavigation';
 import Modal from 'react-native-modal';
+import VersionCheck from "react-native-version-check";
+
+
 var status = '';
 const Dashboard = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -47,7 +51,7 @@ const Dashboard = ({ navigation }) => {
   const AuthReducer = useSelector(state => state.AuthReducer);
   const PostReducer = useSelector(state => state.PostReducer);
 
-  console.log('Hearing======', PostReducer?.profileData?.is_prev_subscribed);
+  console.log('Hearing======', PostReducer?.assignedenquiryList);
 
   const dispatch = useDispatch();
   useFocusEffect(
@@ -56,20 +60,22 @@ const Dashboard = ({ navigation }) => {
         .then(() => {
           dispatch(allHearingRequest());
           dispatch(enquiryListRequest());
-          dispatch(cmsDataRequest({ alias: 'about-us' }));
+       
           dispatch(getWalletRequest());
           dispatch(getProfileRequest());
-          if (PostReducer?.profileData?.is_prev_subscribed == false) {
-            setAleartModal(true)
-
-          }
+          dispatch(assignedenquiryListRequest())
         })
         .catch(() => {
           ToastMessage('Network connection issue');
         });
     }, []),
   );
-  useEffect(() => { }, []);
+  useEffect(() => { 
+    if (PostReducer?.profileData?.is_prev_subscribed == false) {
+      setAleartModal(true)
+    }
+  }, []);
+
   function isEmpty(item) {
     if (item == '' || item == null || item == undefined) return true;
     return false;
@@ -108,6 +114,45 @@ const Dashboard = ({ navigation }) => {
     },
   ];
 
+  useEffect(() => {
+    const checkAppVersion = async () => {
+      try {
+        var latestVersion = 1.3;
+
+        const currentVersion = VersionCheck.getCurrentVersion();
+        console.log("checkAppVersion true", currentVersion);
+        if (latestVersion != currentVersion) {
+          console.log("checkAppVersion true", currentVersion);
+          Alert.alert(
+            "Update Required",
+            "A new version of the app is available. Please update to continue using the app.",
+            [
+              {
+                text: "Update Now",
+                onPress: () => {
+                  Linking.openURL(
+                    Platform.OS == "android"
+                      ? "https://play.google.com/store/apps/details?id=com.legalexpert"
+                      : ""
+                  );
+                },
+              },
+            ],
+            { cancelable: false }
+          );
+        } else {
+          console.log("checkAppVersion else", currentVersion);
+          // App is up-to-date; proceed with the app
+        }
+      } catch (error) {
+        // Handle error while checking app version
+        console.error("Error checking app version:", error);
+      }
+    };
+
+    checkAppVersion();
+  }, []);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fefefe' }}>
       <MyStatusBar barStyle={'dark-content'} backgroundColor={COLORS.WHITE} />
@@ -117,6 +162,7 @@ const Dashboard = ({ navigation }) => {
         navigation={navigation}
       />
       <Loader visible={PostReducer.loading} />
+      <ScrollView>
       <FlatList
         data={PostReducer?.allHearing}
         showsVerticalScrollIndicator={false}
@@ -284,6 +330,7 @@ const Dashboard = ({ navigation }) => {
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity
+                onPress={()=>navigate('Wallet')}
                   style={{
                     marginVertical: normalize(10),
                     backgroundColor: '#fff',
@@ -324,7 +371,7 @@ const Dashboard = ({ navigation }) => {
                         }}>
                         ₹{' '}
                         {parseFloat(
-                          PostReducer?.getWallet?.wallet_balance,
+                          PostReducer?.getWallet?.total_balance,
                         ).toFixed(2)}
                       </Text>
                     </View>
@@ -674,58 +721,68 @@ const Dashboard = ({ navigation }) => {
             </View>
           );
         }}
-        // ListEmptyComponent={() => {
-        //   return (
-        //     <View
-        //       style={{
-        //         width: Dimensions.get('window').width,
-        //         height: Dimensions.get('window').height / 10,
-        //         alignItems: 'center',
-        //         justifyContent: 'center',
-        //       }}>
-        //       <Image
-        //         source={IMAGE?.no_data}
-        //         style={{
-        //           width: Dimensions.get('window').width,
-        //           height: Dimensions.get('window').height / 10,
-        //         }}
-        //         resizeMode="contain"
-        //       />
-        //     </View>
-        //   );
-        // }}
+     
         ListFooterComponent={({ item, index }) => {
           return (
+            PostReducer?.assignedenquiryList?.length > 0 &&
             <View
               style={{
-                backgroundColor: '#fff',
-                borderColor: '#e9e9e9',
-                borderWidth: normalize(1),
-                borderRadius: normalize(5),
+             
                 marginBottom: normalize(10),
               }}>
-              {PostReducer?.enquiryList?.length > 0 ? (
+         
+                 <View
+                 style={{
+                   justifyContent: 'space-between',
+                   alignItems: 'center',
+                   marginVertical: normalize(10),
+                   flexDirection:'row',
+                   paddingHorizontal: normalize(10),
+             
+                 }}>
                 <Text
                   style={{
-                    backgroundColor: '#fefefe',
-                    paddingHorizontal: normalize(10),
-                    paddingVertical: normalize(3),
                     color: '#000',
                     fontSize: normalize(12),
                     fontWeight: '500',
                   }}>
-                  {PostReducer?.enquiryList?.length} New Enquires
+                  {PostReducer?.assignedenquiryList?.length} My Assigned Enquery
                 </Text>
-              ) : null}
+               
+                <TouchableOpacity
+                  style={{
+                    borderColor: COLORS.themeColor,
+                    borderWidth: 1,
+                    paddingHorizontal: normalize(7),
+                    paddingVertical: normalize(3),
+                    borderRadius: normalize(3),
+                  }}
+                  onPress={() => {
+                    navigation?.navigate('asignedenquery');
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: normalize(10),
+                      color: COLORS.themeColor,
+                    }}>
+                    View All
+                  </Text>
+                </TouchableOpacity>
+              </View>
+          
               <FlatList
-                data={PostReducer?.enquiryList?.slice(0, 3)}
+                data={PostReducer?.assignedenquiryList?.slice(0, 3)}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
                 renderItem={({ item, index }) => {
                   return (
                     <View
                       style={{
                         padding: normalize(10),
-                        borderBottomColor: '#ccc',
-                        borderBottomWidth: 1,
+                        backgroundColor: '#eff8ff',
+                        borderRadius: normalize(5),
+                        width: Dimensions.get('screen').width / 1.2,
+                        marginRight: normalize(10),
                       }}>
                       <View
                         style={{
@@ -740,16 +797,19 @@ const Dashboard = ({ navigation }) => {
                           }}>
                           <Text
                             style={{
-                              backgroundColor: '#eff8ff',
-                              borderWidth: 1,
-                              borderColor: '#bfe3ff',
-                              paddingVertical: normalize(3),
-                              paddingHorizontal: normalize(5),
                               color: COLORS.themeColor,
-                              marginBottom: normalize(3),
+                              marginBottom: normalize(2),
                               fontSize: normalize(11),
                             }}>
                             {item?.category}
+                          </Text>
+                          <Text
+                            style={{
+                              color: '#666',
+                              fontSize: normalize(8),
+                              marginBottom: normalize(2),
+                            }}>
+                            {item?.date}
                           </Text>
                         </View>
                         <TouchableOpacity
@@ -766,14 +826,7 @@ const Dashboard = ({ navigation }) => {
                             }
 
                           }}>
-                          <Text
-                            style={{
-                              color: '#666',
-                              fontSize: normalize(8),
-                              marginBottom: normalize(2),
-                            }}>
-                            {item?.date}
-                          </Text>
+                         
                           <Text
                             style={{
                               color: COLORS.secondarColor,
@@ -795,7 +848,7 @@ const Dashboard = ({ navigation }) => {
                           fontSize: normalize(9),
                           marginBottom: normalize(2),
                         }}>
-                        {item?.description}
+                        {item?.description.substring(0, 100)} ...
                       </Text>
                       <View style={{
                         marginTop: normalize(3)
@@ -836,12 +889,42 @@ const Dashboard = ({ navigation }) => {
                 }}
               />
 
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginVertical: normalize(10),
-                }}>
+              
+
+            </View>
+          );
+        }}
+      />
+      <View 
+      style={{
+        backgroundColor: '#fff',
+        borderColor: '#e9e9e9',
+        borderWidth: normalize(1),
+        borderRadius: normalize(5),
+        marginBottom: normalize(10),
+        width: Dimensions.get('screen').width - 25,
+           alignSelf: 'center',
+      }}
+      >
+      {PostReducer?.enquiryList?.length > 0 ? (
+                 <View
+                 style={{
+                   justifyContent: 'space-between',
+                   alignItems: 'center',
+                   marginVertical: normalize(10),
+                   flexDirection:'row',
+                   paddingHorizontal: normalize(10),
+                 }}>
+                <Text
+                  style={{
+                    backgroundColor: '#fefefe',
+                    color: '#000',
+                    fontSize: normalize(12),
+                    fontWeight: '500',
+                  }}>
+                  {PostReducer?.enquiryList?.length} New Enquires
+                </Text>
+               
                 <TouchableOpacity
                   style={{
                     borderColor: COLORS.themeColor,
@@ -862,113 +945,139 @@ const Dashboard = ({ navigation }) => {
                   </Text>
                 </TouchableOpacity>
               </View>
-
-              {/* <View
-                style={{
-                  padding: normalize(10),
-                  borderBottomColor: '#ccc',
-                  borderBottomWidth: 1,
-                }}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-start',
-                    marginBottom: normalize(5),
-                  }}>
-                  <View
-                    style={{
-                      width: '68%',
-                    }}>
-                    <Text
+              ) : null}
+      <FlatList
+                data={PostReducer?.enquiryList?.slice(0, 3)}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({ item, index }) => {
+                  return (
+                    <View
                       style={{
-                        backgroundColor: '#eff8ff',
-                        borderWidth: 1,
-                        borderColor: '#bfe3ff',
-                        paddingVertical: normalize(3),
-                        paddingHorizontal: normalize(5),
-                        color: COLORS.themeColor,
-                        marginBottom: normalize(3),
-                        fontSize: normalize(11),
+                        padding: normalize(10),
+                        borderBottomColor: '#ccc',
+                        borderBottomWidth: 1,
+                        width: Dimensions.get('screen').width / 1.2,
+                        marginRight: normalize(10),
                       }}>
-                      Category
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      width: '32%',
-                      justifyContent: 'flex-end',
-                      alignItems: 'flex-end',
-                    }}>
-                    <Text
-                      style={{
-                        color: '#666',
-                        fontSize: normalize(8),
-                        marginBottom: normalize(2),
-                      }}>
-                      Feb 19, 2024 10:23 AM
-                    </Text>
-                    <Text
-                      style={{
-                        color: '#fff',
-                        fontSize: normalize(9),
-                        textAlign: 'center',
-                        backgroundColor: COLORS.themeColor,
-                        paddingVertical: normalize(4),
-                        paddingHorizontal: normalize(10),
-                        borderRadius: normalize(4),
-                      }}>
-                      Open
-                    </Text>
-                  </View>
-                </View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          alignItems: 'flex-start',
+                          marginBottom: normalize(5),
+                        }}>
+                        <View
+                          style={{
+                            width: '68%',
+                          }}>
+                          <Text
+                            style={{
+                              backgroundColor: '#eff8ff',
+                              borderWidth: 1,
+                              borderColor: '#bfe3ff',
+                              paddingVertical: normalize(3),
+                              paddingHorizontal: normalize(5),
+                              color: COLORS.themeColor,
+                              marginBottom: normalize(3),
+                              fontSize: normalize(11),
+                            }}>
+                            {item?.category}
+                          </Text>
+                        </View>
+                        <TouchableOpacity
+                          style={{
+                            width: '32%',
+                            justifyContent: 'flex-end',
+                            alignItems: 'flex-end',
+                          }}
+                          onPress={() => {
+                            if (PostReducer?.profileData?.is_subscribed) {
+                              if(item?.is_assigned == 1){
+                                ToastMessage('This enquery is already assigned')
+                              } else {
+                                navigate('Message', { item: item });
+                              
+                              }
+                            
+                            } else  {
+                              navigation.navigate('expire');
+                            
+                            } 
 
-                <Text
-                  style={{
-                    color: '#000',
-                    fontSize: normalize(9),
-                    marginBottom: normalize(2),
-                  }}>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Maxime mollitia, molestiae quas vel sint commodi repudiandae
-                  consequuntur voluptatum laborum
-                </Text>
+                          }}>
+                          <Text
+                            style={{
+                              color: '#666',
+                              fontSize: normalize(8),
+                              marginBottom: normalize(2),
+                            }}>
+                            {item?.date}
+                          </Text>
+                          <Text
+                            style={{
+                              color: COLORS.secondarColor,
+                              fontSize: normalize(9),
+                              textAlign: 'center',
+                              backgroundColor: COLORS.themeColor,
+                              paddingVertical: normalize(4),
+                              paddingHorizontal: normalize(10),
+                              borderRadius: normalize(4),
+                            }}>
+                            Open
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
 
-                <Text
-                  style={{
-                    color: '#666',
-                    fontSize: normalize(8),
-                  }}>
-                  Kolkata
-                </Text>
-              </View> */}
-              {/* <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginVertical: normalize(10),
-                }}>
-                <TouchableOpacity
-                  style={{
-                    borderColor: COLORS.themeColor,
-                    borderWidth: 1,
-                    paddingHorizontal: normalize(7),
-                    paddingVertical: normalize(3),
-                    borderRadius: normalize(3),
-                  }}>
-                  <Text
-                    style={{
-                      fontSize: normalize(10),
-                      color: COLORS.themeColor,
-                    }}>
-                    View All
-                  </Text>
-                </TouchableOpacity>
-              </View> */}
-            </View>
-          );
-        }}
-      />
+                      <Text
+                        style={{
+                          color: '#000',
+                          fontSize: normalize(9),
+                          marginBottom: normalize(2),
+                        }}>
+                        {item?.description.substring(0, 100)} ...
+                      </Text>
+                      <View style={{
+                        marginTop: normalize(3)
+                      }}>
+                        {
+                          item?.client?.user_type === 1 ?
+
+                            <View>
+                              <Text style={{
+                                color: '#000',
+                                fontSize: normalize(9),
+                                fontWeight: '600'
+                              }}>{item?.name}</Text>
+                              <Text style={{
+                                color: '#666',
+                                fontSize: normalize(9),
+                                fontWeight: '400'
+                              }}>{item?.city}, {item?.state} </Text>
+                            </View>
+                            :
+                            <View>
+                              <Text style={{
+                                color: '#000',
+                                fontSize: normalize(9),
+                                fontWeight: '600'
+                              }}>{item?.client?.name}</Text>
+                              <Text style={{
+                                color: '#666',
+                                fontSize: normalize(9),
+                                fontWeight: '400'
+                              }}>{item?.client?.district}, {item?.client?.state} </Text>
+                            </View>
+                        }
+                      </View>
+
+                    </View>
+                  );
+                }}
+              />
+      </View>
+</ScrollView>
+
       <Modal
         isVisible={AleartModal}
         animationIn="fadeIn"
@@ -1059,7 +1168,7 @@ const Dashboard = ({ navigation }) => {
 
                 IsInternetConnected()
                 .then(() => {
-                  dispatch(getFreeTrialRequest({user_type:1}));
+                  dispatch(getFreeTrialRequest({user_type:1,type:2}));
                   setAleartModal(false);
                 })
                 .catch(() => {
